@@ -39,5 +39,19 @@ namespace StateFlow
 
             return EmailWorkflowStates.Initialise.ToString();
         }
+
+        public EmailWorkflow(IServiceProvider provider) : base(provider)
+        {
+        }
+    }
+
+    public class SomeResolver
+    {
+        public IWorkflowService Service { get; }
+
+        public SomeResolver(IWorkflowService service)
+        {
+            Service = service;
+        }
     }
 }
