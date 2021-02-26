@@ -2,6 +2,8 @@
 using System.Security.Authentication.ExtendedProtection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 
 namespace StateFlow.Demo
 {
@@ -12,16 +14,16 @@ namespace StateFlow.Demo
             Console.WriteLine("hi there.");
             var serviceProvider = new ServiceCollection()
                 .AddLogging()
-                .AddSingleton<IEmailWorkflow, EmailWorkflow>()
+                .AddSingleton<EmailWorkflow>()
                 .BuildServiceProvider();
 
-            var logger = (serviceProvider.GetService<ILoggerFactory>() ?? new LoggerFactory())
+            var logger = (serviceProvider.GetService<ILoggerFactory>() ?? throw new NullReferenceException())
                 .CreateLogger<Program>();
             
-            logger.LogDebug("starting application");
+            logger.Log(LogLevel.Debug, "Hi there");
 
-            var bar = serviceProvider.GetService<IEmailWorkflow>();
-            bar?.Register();
+            var emailWorkflow = serviceProvider.GetService<EmailWorkflow>();
+            emailWorkflow?.Register();
             logger.LogDebug("eyo!");
             Console.WriteLine("finished.");
         }
