@@ -4,22 +4,6 @@ using System.Runtime.Serialization;
 
 namespace StateFlow
 {
-    public abstract class WorkflowEntity
-    {
-        public int Id { get; set; }
-        public Guid ReferenceId { get; set; }
-        public string Data { get; set; }
-        public int RetryCount { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-        public DateTime DateProcessed { get; set; }
-    }
-
-    public abstract class StateEntity
-    {
-        
-    }
-    
     public abstract class Workflow : StateManagement
     {
         public IServiceProvider Provider { get; }
@@ -50,26 +34,5 @@ namespace StateFlow
         }
 
         public int WorkflowId { get; set; }
-    }
-
-    public interface IWorkflowService
-    {
-        
-    }
-
-    public class WorkflowService<T> : IWorkflowService where T : Workflow
-    {
-        public IServiceProvider Provider { get; }
-
-        public WorkflowService(IServiceProvider provider)
-        {
-            Provider = provider;
-        }
-        
-        public void RaiseEvent(Enum eventName)
-        {
-            Activator.CreateInstance<T>()
-                .RaiseEvent(eventName);
-        }
     }
 }

@@ -14,7 +14,7 @@ namespace StateFlow.Demo
             Console.WriteLine("hi there.");
             var serviceProvider = new ServiceCollection()
                 .AddLogging()
-                .RegisterStateflow()
+                .AddSingleton<EmailWorkflow>()
                 .BuildServiceProvider();
 
             var logger = (serviceProvider.GetService<ILoggerFactory>() ?? throw new NullReferenceException())
@@ -22,7 +22,7 @@ namespace StateFlow.Demo
             
             logger.Log(LogLevel.Debug, "Hi there");
 
-            var emailWorkflow = serviceProvider.GetService<Workflow>();
+            var emailWorkflow = serviceProvider.GetService<EmailWorkflow>();
             emailWorkflow?.Register();
             logger.LogDebug("eyo!");
             Console.WriteLine("finished.");
@@ -34,7 +34,7 @@ namespace StateFlow.Demo
         string Register();
     }
 
-    public class EmailWorkflow : Workflow, IEmailWorkflow
+    public class EmailWorkflow : Workflow
     {
         public EmailWorkflow(IServiceProvider provider) : base(provider)
         {
@@ -64,7 +64,23 @@ namespace StateFlow.Demo
             Console.WriteLine("Register has been triggered.");
             RegisterState(GlobalStates.Initialise)
                  .RegisterEvent(SendEmail())
-                 .RaiseEventOn(Events.SendEmail).ThenChangeStateTo(States.Complete);
+                 .RaiseEventOn(Events.SendEmail)
+                 .ThenChangeStateTo(States.Complete);
+            
+            RegisterState(GlobalStates.Initialise)
+                .RegisterEvent(SendEmail())
+                .RaiseEventOn(Events.SendEmail)
+                .ThenChangeStateTo(States.Complete);
+            
+            RegisterState(GlobalStates.Initialise)
+                .RegisterEvent(SendEmail())
+                .RaiseEventOn(Events.SendEmail)
+                .ThenChangeStateTo(States.Complete);
+            
+            RegisterState(GlobalStates.Initialise)
+                .RegisterEvent(SendEmail())
+                .RaiseEventOn(Events.SendEmail)
+                .ThenChangeStateTo(States.Complete);
             //
             // this.Dothis("");
             return GlobalStates.Initialise.ToString();

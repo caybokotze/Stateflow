@@ -22,7 +22,8 @@ namespace StateFlow
                 "Complete" => new StateConfiguration()
                 {
                   Initialised  = true,
-                  StateName = stateName
+                  StateName = stateName,
+                  Complete = true
                 },
                 _ => new StateConfiguration()
                 {
@@ -35,15 +36,8 @@ namespace StateFlow
         
         protected StateConfiguration RegisterState(Enum stateName)
         {
+            Console.WriteLine(stateName);
             return RegisterState(stateName.ToString());
-        }
-    }
-
-    public static class WorkflowExtensions
-    {
-        public static void Dothis(this Workflow workflow, string something)
-        {
-            
         }
     }
 }
