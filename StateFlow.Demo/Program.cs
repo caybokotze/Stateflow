@@ -29,17 +29,13 @@ namespace StateFlow.Demo
         }
     }
 
-    public interface IEmailWorkflow
-    {
-        string Register();
-    }
-
     public class EmailWorkflow : Workflow
     {
-        public EmailWorkflow(IServiceProvider provider) : base(provider)
+        public EmailWorkflow(IWorkflowService workflowService)
+            : base(workflowService)
         {
         }
-
+        
         private Action SendEmail()
         {
             return delegate
@@ -61,7 +57,6 @@ namespace StateFlow.Demo
 
         public override string Register()
         {
-            Console.WriteLine("Register has been triggered.");
             RegisterState(GlobalStates.Initialise)
                  .RegisterEvent(SendEmail())
                  .RaiseEventOn(Events.SendEmail)
@@ -81,10 +76,8 @@ namespace StateFlow.Demo
                 .RegisterEvent(SendEmail())
                 .RaiseEventOn(Events.SendEmail)
                 .ThenChangeStateTo(States.Complete);
-            //
-            // this.Dothis("");
-            return GlobalStates.Initialise.ToString();
             
+            return GlobalStates.Initialise.ToString();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -6,13 +7,12 @@ namespace StateFlow
 {
     public abstract class Workflow : StateManagement
     {
-        public IServiceProvider Provider { get; }
-
-        public Workflow(IServiceProvider provider)
+        public Workflow(
+            IWorkflowService workflowService) :
+            base(workflowService)
         {
-            Provider = provider;
         }
-        
+
         public int Id { get; set; }
         private object Data { get; set; }
 

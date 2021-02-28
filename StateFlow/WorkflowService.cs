@@ -1,20 +1,23 @@
 ﻿using System;
+using System.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace StateFlow
 {
-    public class WorkflowService<T> : IWorkflowService where T : Workflow
+    public class WorkflowService : IWorkflowService
     {
-        public IServiceProvider Provider { get; }
-
-        public WorkflowService(IServiceProvider provider)
+        public WorkflowService(
+            IDbConnection dbConnection, 
+            IServiceCollection serviceCollection, 
+            IServiceProvider serviceProvider)
         {
-            Provider = provider;
+            DbConnection = dbConnection;
+            ServiceCollection = serviceCollection;
+            ServiceProvider = serviceProvider;
         }
         
-        public void RaiseEvent(Enum eventName)
-        {
-            Activator.CreateInstance<T>()
-                .RaiseEvent(eventName);
-        }
+        public IDbConnection DbConnection { get; }
+        public IServiceCollection ServiceCollection { get; }
+        public IServiceProvider ServiceProvider { get; }
     }
 }

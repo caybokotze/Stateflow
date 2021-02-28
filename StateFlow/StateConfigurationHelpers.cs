@@ -6,22 +6,22 @@ namespace StateFlow
     {
         public static StateConfigured RegisterEvent<T>(this StateConfiguration configuration) where T : IRegisteredEvent
         {
-            return new StateConfigured();
+            return new StateConfigured(configuration.Configuration);
         }
 
         public static StateConfigured RegisterEvent(this StateConfiguration configuration, Action action)
         {
-            return new StateConfigured();
+            return new StateConfigured(configuration.Configuration);
         }
 
         public static StateConfigured ThenChangeStateTo(this EventConfigured configured, string stateName)
         {
-            return new StateConfigured();
+            return new StateConfigured(configured.Configuration);
         }
         
         public static StateConfigured ThenChangeStateTo(this EventConfigured configured, Enum stateName)
         {
-            return new StateConfigured();
+            return new StateConfigured(configured.Configuration);
         }
     }
 }

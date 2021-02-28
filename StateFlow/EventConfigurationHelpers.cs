@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace StateFlow
 {
@@ -6,14 +7,14 @@ namespace StateFlow
     {
         public static EventConfigured RaiseEventOn(this StateConfigured configured, string eventName)
         {
-            return new EventConfigured();
+            return new EventConfigured(configured.Configuration);
         }
         
         public static EventConfigured RaiseEventOn(this StateConfigured configured, Enum eventName)
         {
-            return new EventConfigured
+            return new EventConfigured(configured.Configuration)
             {
-
+                
             };
         }
     }
