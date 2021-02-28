@@ -12,10 +12,7 @@ namespace StateFlow
         
         public static EventConfigured RaiseEventOn(this StateConfigured configured, Enum eventName)
         {
-            return new EventConfigured(configured.Configuration)
-            {
-                
-            };
+            return RaiseEventOn(configured, eventName.ToString());
         }
     }
 }
