@@ -6,6 +6,7 @@ namespace StateFlow
     {
         public static IServiceCollection RegisterStateflow(this IServiceCollection collection)
         {
+            collection.AddSingleton<Workflow>();
             return collection;
         }
     }

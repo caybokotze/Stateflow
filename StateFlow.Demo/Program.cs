@@ -14,7 +14,7 @@ namespace StateFlow.Demo
             Console.WriteLine("hi there.");
             var serviceProvider = new ServiceCollection()
                 .AddLogging()
-                .AddSingleton<EmailWorkflow>()
+                .RegisterStateflow()
                 .BuildServiceProvider();
 
             var logger = (serviceProvider.GetService<ILoggerFactory>() ?? throw new NullReferenceException())
@@ -22,7 +22,7 @@ namespace StateFlow.Demo
             
             logger.Log(LogLevel.Debug, "Hi there");
 
-            var emailWorkflow = serviceProvider.GetService<EmailWorkflow>();
+            var emailWorkflow = serviceProvider.GetService<Workflow>();
             emailWorkflow?.Register();
             logger.LogDebug("eyo!");
             Console.WriteLine("finished.");
@@ -48,14 +48,27 @@ namespace StateFlow.Demo
             };
         }
 
+        enum States
+        {
+            Initialise,
+            Complete
+        }
+
+        enum Events
+        {
+            SendEmail
+        }
+
         public override string Register()
         {
             Console.WriteLine("Register has been triggered.");
-
+            RegisterState(GlobalStates.Initialise)
+                 .RegisterEvent(SendEmail())
+                 .RaiseEventOn(Events.SendEmail).ThenChangeStateTo(States.Complete);
             //
-            // RegisterState("")
-            //     .RegisterEvent(SendEmail()).RaiseEventOn("").ThenChangeStateTo("");
-            return "";
+            // this.Dothis("");
+            return GlobalStates.Initialise.ToString();
+            
         }
     }
 }
