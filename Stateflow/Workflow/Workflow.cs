@@ -3,7 +3,7 @@
 // ReSharper disable CheckNamespace
 namespace Stateflow
 {
-    public abstract class Workflow : StateManager
+    public abstract class Workflow : StateManager, IComparable<Workflow>
     {
         public Workflow(
             IWorkflowService workflowService) :
@@ -12,24 +12,23 @@ namespace Stateflow
         }
         
         private object Data { get; set; }
+        private Type Type { get; set; } 
 
         public ulong WorkflowId { get; set; }
         
         public void SetData<T>(object obj) where T : WorkflowEntity
         {
+            Type = typeof(T);
             Data = obj;
         }
 
         public abstract string Register();
 
-        public virtual void RaiseEvent(Enum eventName)
+        public int CompareTo(Workflow other)
         {
-            return;
-        }
-        
-        public virtual void RaiseEvent(string eventName)
-        {
-            return;
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            return WorkflowId.CompareTo(other.WorkflowId);
         }
     }
 }
