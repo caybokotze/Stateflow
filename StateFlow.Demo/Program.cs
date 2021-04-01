@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Security.Authentication.ExtendedProtection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
+using Stateflow;
 
 namespace StateFlow.Demo
 {

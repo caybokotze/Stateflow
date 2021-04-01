@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 
-namespace StateFlow
+// ReSharper disable CheckNamespace
+namespace Stateflow
 {
     public static class EventConfigurationHelpers
     {

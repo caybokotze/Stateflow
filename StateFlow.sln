@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateFlow", "StateFlow\StateFlow.csproj", "{EC4579CE-677B-4329-BBF6-1AAAAA928DF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stateflow", "Stateflow\Stateflow.csproj", "{EC4579CE-677B-4329-BBF6-1AAAAA928DF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateFlow.Demo", "StateFlow.Demo\StateFlow.Demo.csproj", "{383C1F00-0B23-429F-A406-982848EA2AD0}"
 EndProject

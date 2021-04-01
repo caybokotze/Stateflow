@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Data;
-using System.Data.Common;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace StateFlow
+// ReSharper disable CheckNamespace
+namespace Stateflow
 {
     public interface IWorkflowService
     {
         IDbConnection DbConnection { get; }
-        IServiceCollection ServiceCollection { get; }
+        DatabaseProvider DatabaseProvider { get; }
         IServiceProvider ServiceProvider { get; }
     }
 }

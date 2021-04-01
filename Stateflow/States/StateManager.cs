@@ -1,48 +1,51 @@
 ﻿using System;
-using System.Data;
-using System.Runtime.InteropServices.ComTypes;
 using Dapper;
+using SqExpress.SqlExport;
+using static SqExpress.SqQueryBuilder;
 
-namespace StateFlow
+// ReSharper disable CheckNamespace
+namespace Stateflow
 {
-    public abstract class StateManagement
+    public abstract class StateManager
     {
-        public IWorkflowService WorkflowService { get; }
-
-        protected enum GlobalStates
+        private IWorkflowService WorkflowService { get; }
+        
+        protected static class GlobalStates
         {
-            Initialise,
-            Complete
+            public const string Initialise = "Initialise";
+            public const string Complete = "Complete";
         }
 
-        public StateManagement(IWorkflowService workflowService)
+        protected StateManager(IWorkflowService workflowService)
         {
             WorkflowService = workflowService;
         }
 
-        private Workflow GetWorkflow(int Id)
+        private Workflow GetWorkflow(ulong id)
         {
             return WorkflowService.DbConnection
                 .QueryFirst<Workflow>("SELECT * FROM stores WHERE id = @id",
-                    new { id = Id });
+                    new { id = id });
         }
 
         private int SaveWorkflow(Workflow workflow)
         {
-            return WorkflowService.DbConnection.QueryFirst<int>("");
+            var query = Select("Hi there.").Done();
+            var result = MySqlExporter.Default.ToSql(query);
+            return WorkflowService.DbConnection.QueryFirst<int>(result);
         }
 
-        private StateConfiguration RegisterState(string stateName)
+        protected StateConfiguration RegisterState(string stateName)
         {
             IWorkflowConfiguration configuration = new WorkflowConfiguration(WorkflowService);
             var stateConfiguration = stateName switch
             {
-                "Initialise" => new StateConfiguration(configuration)
+                GlobalStates.Initialise => new StateConfiguration(configuration)
                 {
                     Initialised = false,
                     StateName = stateName
                 },
-                "Complete" => new StateConfiguration(configuration)
+                GlobalStates.Complete => new StateConfiguration(configuration)
                 {
                   Initialised  = true,
                   StateName = stateName,

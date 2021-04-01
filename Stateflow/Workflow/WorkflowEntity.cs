@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace StateFlow
+// ReSharper disable CheckNamespace
+namespace Stateflow
 {
     public abstract class WorkflowEntity
     {

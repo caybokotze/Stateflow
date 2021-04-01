@@ -1,6 +1,7 @@
 ﻿using System.Security.Principal;
 
-namespace StateFlow
+// ReSharper disable CheckNamespace
+namespace Stateflow
 {
     public class StateConfiguration
     {

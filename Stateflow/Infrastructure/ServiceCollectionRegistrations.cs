@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace StateFlow
+// ReSharper disable CheckNamespace
+namespace Stateflow
 {
     public static class ServiceCollectionRegistrations
     {
