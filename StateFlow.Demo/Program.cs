@@ -67,22 +67,7 @@ namespace StateFlow.Demo
                  .RegisterAction(new SendEmailAction())
                  .RaiseEventOn(Events.SendEmail)
                  .ThenChangeStateTo(States.Complete);
-            
-            RegisterState(GlobalStates.Initialise)
-                .RegisterAction(SendEmail())
-                .RaiseEventOn(Events.SendEmail)
-                .ThenChangeStateTo(States.Complete);
-            
-            RegisterState(GlobalStates.Initialise)
-                .RegisterAction(SendEmail())
-                .RaiseEventOn(Events.SendEmail)
-                .ThenChangeStateTo(States.Complete);
-            
-            RegisterState(GlobalStates.Initialise)
-                .RegisterAction(SendEmail())
-                .RaiseEventOn(Events.SendEmail)
-                .ThenChangeStateTo(States.Complete);
-            
+
             return GlobalStates.Initialise;
         }
     }

@@ -66,7 +66,11 @@ namespace Stateflow
                 _ => new StateConfiguration(WorkflowConfiguration)
                 {
                     Initialised = true,
-                    StateName = stateName
+                    StateName = stateName,
+                    CurrentStateConfiguration = new StateConfiguration.RegisteredState()
+                    {
+                        CurrentState = stateName
+                    }
                 }
             };
             return stateConfiguration;

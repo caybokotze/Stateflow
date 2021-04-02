@@ -5,30 +5,35 @@ namespace Stateflow
 {
     public static class StateConfigurationHelpers
     {
-        public static StateConfigured RegisterEvent<T>(this StateConfiguration configuration) where T : IRegisteredEvent
+        public static StateConfigured RegisterEvent<T>(this StateConfiguration stateConfiguration) where T : IRegisteredEvent
         {
             
-            return new StateConfigured(configuration.Configuration);
+            return new StateConfigured(stateConfiguration);
         }
 
-        public static StateConfigured RegisterAction(this StateConfiguration configuration, Action action)
+        public static StateConfigured RegisterAction(
+            this StateConfiguration stateConfiguration, 
+            IWorkflowAction workflowAction)
         {
-            return new StateConfigured(configuration.Configuration);
-        }
-        
-        public static StateConfigured RegisterAction(this StateConfiguration configuration, IWorkflowAction workflowAction)
-        {
-            return new StateConfigured(configuration.Configuration);
+            stateConfiguration.CurrentStateConfiguration.Action = workflowAction.GetType()
+                .ToString();
+            
+            return new StateConfigured(stateConfiguration);
         }
 
-        public static StateConfigured ThenChangeStateTo(this EventConfigured configured, string stateName)
+        public static StateConfigured ThenChangeStateTo(this EventConfigured eventConfigured, string stateName)
         {
-            return new StateConfigured(configured.Configuration);
+            eventConfigured
+                .StateConfiguration
+                .CurrentStateConfiguration
+                .ChangeStateTo = stateName;
+            
+            return new StateConfigured(eventConfigured.StateConfiguration);
         }
         
-        public static StateConfigured ThenChangeStateTo(this EventConfigured configured, Enum stateName)
+        public static StateConfigured ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
         {
-            return new StateConfigured(configured.Configuration);
+            return new StateConfigured(eventConfigured.StateConfiguration);
         }
     }
 }
