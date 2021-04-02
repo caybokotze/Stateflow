@@ -1,6 +1,6 @@
 ﻿namespace Stateflow.QueryHandlers
 {
-    public class MySqlQueryHandler
+    public class QueryHandler
     {
         
     }

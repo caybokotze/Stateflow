@@ -21,9 +21,17 @@ namespace StateFlow.Demo
             logger.Log(LogLevel.Debug, "Hi there");
 
             var emailWorkflow = serviceProvider.GetService<EmailWorkflow>();
-            emailWorkflow?.Register();
+            emailWorkflow?.RegisterStates();
             logger.LogDebug("eyo!");
             Console.WriteLine("finished.");
+        }
+    }
+    
+    public class SendEmailAction : WorkflowAction
+    {
+        public override void ExecuteAction()
+        {
+            Console.WriteLine("Email is sending...");
         }
     }
 
@@ -42,7 +50,7 @@ namespace StateFlow.Demo
             };
         }
 
-        enum States
+        public enum States
         {
             Initialise,
             Complete
@@ -53,29 +61,29 @@ namespace StateFlow.Demo
             SendEmail
         }
 
-        public override string Register()
+        public override string RegisterStates()
         {
             RegisterState(GlobalStates.Initialise)
-                 .RegisterEvent(SendEmail())
+                 .RegisterAction(new SendEmailAction())
                  .RaiseEventOn(Events.SendEmail)
                  .ThenChangeStateTo(States.Complete);
             
             RegisterState(GlobalStates.Initialise)
-                .RegisterEvent(SendEmail())
+                .RegisterAction(SendEmail())
                 .RaiseEventOn(Events.SendEmail)
                 .ThenChangeStateTo(States.Complete);
             
             RegisterState(GlobalStates.Initialise)
-                .RegisterEvent(SendEmail())
+                .RegisterAction(SendEmail())
                 .RaiseEventOn(Events.SendEmail)
                 .ThenChangeStateTo(States.Complete);
             
             RegisterState(GlobalStates.Initialise)
-                .RegisterEvent(SendEmail())
+                .RegisterAction(SendEmail())
                 .RaiseEventOn(Events.SendEmail)
                 .ThenChangeStateTo(States.Complete);
             
-            return GlobalStates.Initialise.ToString();
+            return GlobalStates.Initialise;
         }
     }
 }

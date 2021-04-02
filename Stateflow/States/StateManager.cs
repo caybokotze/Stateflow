@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Dapper;
 using SqExpress.SqlExport;
 using static SqExpress.SqQueryBuilder;
@@ -9,6 +10,7 @@ namespace Stateflow
     public abstract class StateManager
     {
         private IWorkflowService WorkflowService { get; }
+        private IWorkflowConfiguration WorkflowConfiguration { get; }
         
         protected static class GlobalStates
         {
@@ -19,6 +21,7 @@ namespace Stateflow
         protected StateManager(IWorkflowService workflowService)
         {
             WorkflowService = workflowService;
+            WorkflowConfiguration = new WorkflowConfiguration(workflowService);
         }
 
         private Workflow GetWorkflow(ulong id)
@@ -28,30 +31,39 @@ namespace Stateflow
                     new { id = id });
         }
 
-        private int SaveWorkflow(Workflow workflow)
+        private ulong SaveWorkflow(Workflow workflow)
         {
             var query = Select("Hi there.").Done();
             var result = MySqlExporter.Default.ToSql(query);
-            return WorkflowService.DbConnection.QueryFirst<int>(result);
+            return WorkflowService.DbConnection.QueryFirst<ulong>(result);
+        }
+
+        protected StateConfiguration DisposeState(string stateName)
+        {
+            return new StateConfiguration(WorkflowConfiguration);
+        }
+        
+        protected StateConfiguration DisposeState(Enum stateName)
+        {
+            return DisposeState(stateName.ToString());
         }
 
         protected StateConfiguration RegisterState(string stateName)
         {
-            IWorkflowConfiguration configuration = new WorkflowConfiguration(WorkflowService);
             var stateConfiguration = stateName switch
             {
-                GlobalStates.Initialise => new StateConfiguration(configuration)
+                GlobalStates.Initialise => new StateConfiguration(WorkflowConfiguration)
                 {
                     Initialised = false,
                     StateName = stateName
                 },
-                GlobalStates.Complete => new StateConfiguration(configuration)
+                GlobalStates.Complete => new StateConfiguration(WorkflowConfiguration)
                 {
                   Initialised  = true,
                   StateName = stateName,
                   Complete = true
                 },
-                _ => new StateConfiguration(configuration)
+                _ => new StateConfiguration(WorkflowConfiguration)
                 {
                     Initialised = true,
                     StateName = stateName

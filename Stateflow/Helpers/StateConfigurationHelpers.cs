@@ -7,10 +7,16 @@ namespace Stateflow
     {
         public static StateConfigured RegisterEvent<T>(this StateConfiguration configuration) where T : IRegisteredEvent
         {
+            
             return new StateConfigured(configuration.Configuration);
         }
 
-        public static StateConfigured RegisterEvent(this StateConfiguration configuration, Action action)
+        public static StateConfigured RegisterAction(this StateConfiguration configuration, Action action)
+        {
+            return new StateConfigured(configuration.Configuration);
+        }
+        
+        public static StateConfigured RegisterAction(this StateConfiguration configuration, IWorkflowAction workflowAction)
         {
             return new StateConfigured(configuration.Configuration);
         }

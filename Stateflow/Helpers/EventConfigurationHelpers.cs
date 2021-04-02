@@ -10,7 +10,9 @@ namespace Stateflow
             return new EventConfigured(configured.Configuration);
         }
         
-        public static EventConfigured RaiseEventOn(this StateConfigured configured, Enum eventName)
+        public static EventConfigured RaiseEventOn(
+            this StateConfigured configured,
+            Enum eventName)
         {
             return RaiseEventOn(configured, eventName.ToString());
         }

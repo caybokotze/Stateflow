@@ -12,8 +12,7 @@ namespace Stateflow
         }
         
         private object Data { get; set; }
-        private Type Type { get; set; } 
-
+        private Type Type { get; set; }
         public ulong WorkflowId { get; set; }
         
         public void SetData<T>(object obj) where T : WorkflowEntity
@@ -22,7 +21,12 @@ namespace Stateflow
             Data = obj;
         }
 
-        public abstract string Register();
+        public abstract string RegisterStates();
+
+        public void RaiseEvent(string eventName)
+        {
+            RegisterStates();
+        }
 
         public int CompareTo(Workflow other)
         {
