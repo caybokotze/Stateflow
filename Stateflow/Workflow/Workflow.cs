@@ -25,11 +25,11 @@ namespace Stateflow
             Data = obj;
         }
 
-        public abstract string RegisterStates();
+        public abstract void RegisterStates();
 
         public void RaiseEvent(string eventName)
         {
-            RegisterStates();
+            
         }
         
         

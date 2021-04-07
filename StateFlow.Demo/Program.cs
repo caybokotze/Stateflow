@@ -61,14 +61,12 @@ namespace StateFlow.Demo
             SendEmail
         }
 
-        public override string RegisterStates()
+        public override void RegisterStates()
         {
             RegisterState(GlobalStates.Initialise)
                  .RegisterAction(new SendEmailAction())
                  .RaiseEventOn(Events.SendEmail)
                  .ThenChangeStateTo(States.Complete);
-
-            return GlobalStates.Initialise;
         }
     }
 }
