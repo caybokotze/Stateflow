@@ -1,7 +1,7 @@
 ﻿// ReSharper disable CheckNamespace
 namespace Stateflow
 {
-    public enum Serializers
+    public enum SerializationFormat
     {
         Json,
         Bson,

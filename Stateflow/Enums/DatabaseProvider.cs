@@ -1,7 +1,7 @@
 ﻿// ReSharper disable CheckNamespace
 namespace Stateflow
 {
-    public enum Databases
+    public enum DatabaseProvider
     {
         MySql,
         MsSql,
