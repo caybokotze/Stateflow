@@ -27,12 +27,25 @@ namespace Stateflow
 
         public abstract void RegisterStates();
 
-        public void RaiseEvent(string eventName)
+        public new void RaiseEvent(string eventName)
         {
-            
+            base.RaiseEvent(eventName);
+        }
+
+        public new void ForceStateOverride(string stateName)
+        {
+            base.ForceStateOverride(stateName);
+        }
+
+        public void ForceStateOverride(Enum stateName)
+        {
+            base.ForceStateOverride(stateName.ToString());
         }
         
-        
+        public void RaiseEvent(Enum eventName)
+        {
+            base.RaiseEvent(eventName.ToString());
+        }
 
         public int CompareTo(Workflow other)
         {

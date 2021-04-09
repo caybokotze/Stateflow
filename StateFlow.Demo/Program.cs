@@ -13,6 +13,7 @@ namespace StateFlow.Demo
             var serviceProvider = new ServiceCollection()
                 .AddLogging()
                 .AddSingleton<EmailWorkflow>()
+                .AddSingleton<IWorkflowService>()
                 .BuildServiceProvider();
 
             var logger = (serviceProvider.GetService<ILoggerFactory>() ?? throw new NullReferenceException())
@@ -22,6 +23,9 @@ namespace StateFlow.Demo
 
             var emailWorkflow = serviceProvider.GetService<EmailWorkflow>();
             emailWorkflow?.RegisterStates();
+            emailWorkflow?.RaiseEvent("SomeEvent");
+            emailWorkflow?.ForceStateOverride("Something");
+            
             logger.LogDebug("eyo!");
             Console.WriteLine("finished.");
         }
@@ -40,14 +44,6 @@ namespace StateFlow.Demo
         public EmailWorkflow(IWorkflowService workflowService)
             : base(workflowService)
         {
-        }
-        
-        private Action SendEmail()
-        {
-            return delegate
-            {
-                Console.WriteLine("");
-            };
         }
 
         public enum States

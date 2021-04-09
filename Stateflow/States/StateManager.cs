@@ -31,6 +31,16 @@ namespace Stateflow
                     new { id = id });
         }
 
+        public void ForceStateOverride(string stateName)
+        {
+            return;
+        }
+
+        protected void RaiseEvent(string eventName)
+        {
+            
+        }
+
         private ulong SaveWorkflow(Workflow workflow)
         {
             var query = Select("Hi there.").Done();

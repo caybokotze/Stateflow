@@ -27,11 +27,11 @@ namespace Stateflow
             IDbExecutionContext executionContext)
         {
             var stateEntity = new SqExpressStateEntity(
-                default, 
-                executionContext.Schema, 
+                default,
+                executionContext.Schema,
                 executionContext.Table);
             
-            var statement = "";
+            var statement = string.Empty;
             var context = new ExecutingContext(new CreateMySqlTable(databaseProvider, statement, stateEntity));
             statement = context.Create();
             context = new ExecutingContext(new CreateMsSqlTable(databaseProvider, statement, stateEntity));
