@@ -1,4 +1,5 @@
 ﻿using System;
+using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -36,6 +37,11 @@ namespace Stateflow
         
         public static StateConfigured ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
         {
+            var workflow = new WorkflowEntity()
+            {
+                StateName = eventConfigured.StateConfiguration.StateName
+            };
+            
             return new StateConfigured(eventConfigured.StateConfiguration);
         }
     }

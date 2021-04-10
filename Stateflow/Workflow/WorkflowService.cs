@@ -24,5 +24,10 @@ namespace Stateflow
         public IServiceCollection ServiceCollection { get; }
         public IServiceProvider ServiceProvider { get; }
         public string Schema { get; }
+        
+        public void InitialiseWorkflows()
+        {
+            StateManagementData.CreateWorkflowTable(this);
+        }
     }
 }

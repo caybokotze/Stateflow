@@ -1,21 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using Dapper;
-using SqExpress.SqlExport;
 using Stateflow.Entities;
-using static SqExpress.SqQueryBuilder;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
 {
     public abstract class StateManager
     {
-        private static class Constants
-        {
-            public const string WorkflowTableName = "workflows";
-            public const string WorkflowActionTableName = "workflow_actions";
-        }
+      
         
         private IWorkflowService WorkflowService { get; }
         private IWorkflowConfiguration WorkflowConfiguration { get; }
@@ -67,21 +60,14 @@ namespace Stateflow
                 WorkflowType = ClassHelper.GetNameOfCallingClass()
             };
 
-            PersistWorkflow(workflow);
-
-            return new StateConfiguration(WorkflowConfiguration);
+            return new StateConfiguration(WorkflowConfiguration)
+            {
+                Initialised = true,
+                StateName = stateName
+            };
         }
 
-        private int PersistWorkflow(WorkflowEntity workflow)
-        {
-            return WorkflowService
-                .DbConnection
-                .Query<int>(QueryBuilder
-                        .CreateTableStatement<WorkflowEntity>(WorkflowService.DatabaseProvider,
-                            new DbExecutionContext(Constants.WorkflowTableName, WorkflowService.Schema)),
-                    workflow)
-                .FirstOrDefault();
-        }
+        
         
         protected StateConfiguration RegisterState(Enum stateName)
         {
@@ -89,4 +75,5 @@ namespace Stateflow
             return RegisterState(stateName.ToString());
         }
     }
+    
 }

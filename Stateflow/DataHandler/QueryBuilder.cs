@@ -33,6 +33,13 @@ namespace Stateflow
     
     public static class QueryBuilder
     {
+        public static string CreateOrUpdateWorkflow(
+            IWorkflowService workflowService, 
+            Workflow workflow)
+        {
+            return string.Empty;
+        }
+        
         public static string CreateTableStatement<T>(
             DatabaseProvider databaseProvider, 
             IDbExecutionContext executionContext)

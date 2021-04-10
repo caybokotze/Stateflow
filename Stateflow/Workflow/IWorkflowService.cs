@@ -11,5 +11,6 @@ namespace Stateflow
         DatabaseProvider DatabaseProvider { get; }
         IServiceProvider ServiceProvider { get; }
         string Schema { get; }
+        void InitialiseWorkflows();
     }
 }
