@@ -1,56 +1,19 @@
-﻿// ReSharper disable CheckNamespace
-
-using System;
+﻿using System;
 using SqExpress.SqlExport;
 using Stateflow.Entities;
 
+
+// ReSharper disable once CheckNamespace
 namespace Stateflow
 {
-    public enum Statement
+    public class WorkflowActivityQueries
     {
-        Select,
-        Create,
-        Update,
-        Delete
-    }
-
-    public interface IDbExecutionContext
-    {
-        public string Table { get; set; }
-        public string Schema { get; set; }
-    }
-    
-    public static class QueryHandler
-    {
-        public static string CreateTableStatement<T>(
-            DatabaseProvider databaseProvider, 
-            IDbExecutionContext executionContext)
-        {
-            var stateEntity = new SqExpressStateEntity(
-                default,
-                executionContext.Schema,
-                executionContext.Table);
-            
-            var statement = string.Empty;
-            var context = new ExecutingContext(new CreateMySqlTable(databaseProvider, statement, stateEntity));
-            statement = context.Create();
-            context = new ExecutingContext(new CreateMsSqlTable(databaseProvider, statement, stateEntity));
-            statement = context.Create();
-            context = new ExecutingContext(new CreatePostgreSqlTable(databaseProvider, statement, stateEntity));
-            statement = context.Create();
-            context = new ExecutingContext(new CreateSqLiteTable(databaseProvider, statement, stateEntity, executionContext));
-            statement = context.Create();
-            
-            return statement;
-        }
-    }
-    
-    internal class CreatePostgreSqlTable : ContextExecutor
+        internal class CreatePostgreSqlTable : ContextExecutor
     {
         public CreatePostgreSqlTable(
             DatabaseProvider databaseProvider, 
             string sql,
-            SqExpressStateEntity stateEntity) 
+            SqActionEntity stateEntity) 
             : base(databaseProvider, sql, stateEntity) { }
 
         public override string Execute()
@@ -73,7 +36,7 @@ namespace Stateflow
         public CreateMsSqlTable(
             DatabaseProvider databaseProvider, 
             string sql,
-            SqExpressStateEntity stateEntity) 
+            SqActionEntity stateEntity) 
             : base(databaseProvider, sql, stateEntity)
         {
             
@@ -86,7 +49,7 @@ namespace Stateflow
                 return Sql;
             }
             
-            var stateEntity = new SqExpressStateEntity();
+            var stateEntity = new SqActionEntity();
 
             return TSqlExporter
                 .Default
@@ -101,7 +64,7 @@ namespace Stateflow
         public CreateMySqlTable(
             DatabaseProvider databaseProvider,
             string sql,
-            SqExpressStateEntity stateEntity)
+            SqActionEntity stateEntity)
             : base(databaseProvider, sql, stateEntity)
         {
             
@@ -129,7 +92,7 @@ namespace Stateflow
         public CreateSqLiteTable(
             DatabaseProvider databaseProvider,
             string sql,
-            SqExpressStateEntity stateEntity,
+            SqActionEntity stateEntity,
             IDbExecutionContext context)
             : base(databaseProvider, sql, stateEntity)
         {
@@ -174,12 +137,12 @@ namespace Stateflow
     {
         public DatabaseProvider DatabaseProvider { get; }
         public string Sql { get; }
-        public SqExpressStateEntity StateEntity { get; }
+        public SqActionEntity StateEntity { get; }
 
         protected ContextExecutor(
             DatabaseProvider databaseProvider, 
             string sql,
-            SqExpressStateEntity stateEntity)
+            SqActionEntity stateEntity)
         {
             DatabaseProvider = databaseProvider;
             Sql = sql;
@@ -187,5 +150,6 @@ namespace Stateflow
         }
         
         public abstract string Execute();
+    }
     }
 }

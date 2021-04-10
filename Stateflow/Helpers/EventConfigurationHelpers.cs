@@ -5,7 +5,9 @@ namespace Stateflow
 {
     public static class EventConfigurationHelpers
     {
-        public static EventConfigured RaiseEventOn(this StateConfigured stateConfigured, string eventName)
+        public static EventConfigured RaiseEventOn(
+            this StateConfigured stateConfigured, 
+            string eventName)
         {
             stateConfigured
                 .StateConfiguration

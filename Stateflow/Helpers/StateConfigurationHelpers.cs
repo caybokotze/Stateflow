@@ -7,7 +7,6 @@ namespace Stateflow
     {
         public static StateConfigured RegisterEvent<T>(this StateConfiguration stateConfiguration) where T : IRegisteredEvent
         {
-            
             return new StateConfigured(stateConfiguration);
         }
 
@@ -15,7 +14,11 @@ namespace Stateflow
             this StateConfiguration stateConfiguration, 
             IWorkflowAction workflowAction)
         {
-            stateConfiguration.CurrentStateConfiguration.Action = workflowAction.GetType()
+            stateConfiguration
+                .CurrentStateConfiguration
+                .Action = workflowAction
+                .GetType()
+                .GetProperties()
                 .ToString();
             
             return new StateConfigured(stateConfiguration);

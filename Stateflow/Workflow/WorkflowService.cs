@@ -23,5 +23,6 @@ namespace Stateflow
         public DatabaseProvider DatabaseProvider { get; }
         public IServiceCollection ServiceCollection { get; }
         public IServiceProvider ServiceProvider { get; }
+        public string Schema { get; }
     }
 }
