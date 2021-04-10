@@ -19,12 +19,12 @@ namespace Stateflow
         {
             collection.AddTransient<IWorkflowService, WorkflowService>();
             
-            collection.AddTransient<WorkflowService>(ws => 
-                new WorkflowService(
-                    databaseConnection,
-                    collection,
-                    serviceProvider,
-                    databaseProvider));
+            // collection.AddTransient<WorkflowService>(ws => 
+            //     new WorkflowService(
+            //         databaseConnection,
+            //         collection,
+            //         serviceProvider,
+            //         databaseProvider));
 
             // Note: I'm not even sure if this is possible or not.
             // var allWorkflows = ReflectiveEnumerator.GetEnumerableOfType<Workflow>();

@@ -24,7 +24,7 @@ namespace Stateflow
             CurrentStateConfiguration.RaiseOnEvent = String.Empty;
         }
         
-        public IEnumerable<RegisteredState> RegisteredStates { get; set; }
+        public List<RegisteredState> RegisteredStates { get; set; }
         
         public IWorkflowConfiguration Configuration { get; }
 

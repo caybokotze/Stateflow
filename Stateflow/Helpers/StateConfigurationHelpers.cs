@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
@@ -23,17 +24,35 @@ namespace Stateflow
             return new StateConfigured(stateConfiguration);
         }
 
-        public static void ThenChangeStateTo(this EventConfigured eventConfigured, string stateName)
+        public static StateComplete ThenChangeStateTo(this EventConfigured eventConfigured, string stateName)
         {
             eventConfigured
                 .StateConfiguration
                 .CurrentStateConfiguration
                 .ChangeStateTo = stateName;
+            
+            return new StateComplete(eventConfigured.StateConfiguration);
         }
         
-        public static void ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
+        public static StateComplete ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
         {
-            ThenChangeStateTo(eventConfigured, stateName.ToString());
+            return ThenChangeStateTo(eventConfigured, stateName.ToString());
+        }
+
+        public static void SaveState(this StateComplete stateComplete)
+        {
+            var currentState = stateComplete.StateConfiguration.CurrentStateConfiguration;
+            
+            stateComplete
+                .StateConfiguration
+                .RegisteredStates
+                .Add(new StateConfiguration.RegisteredState()
+            {
+                ActionName = currentState.ActionName,
+                CurrentState = currentState.CurrentState,
+                ChangeStateTo = currentState.ChangeStateTo,
+                RaiseOnEvent = currentState.RaiseOnEvent
+            });
         }
     }
 }

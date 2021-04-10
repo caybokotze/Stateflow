@@ -8,20 +8,18 @@ namespace Stateflow
     public class WorkflowService : IWorkflowService
     {
         public WorkflowService(
-            IDbConnection dbConnection, 
-            IServiceCollection serviceCollection, 
+            IDbConnection dbConnection,
             IServiceProvider serviceProvider,
-            DatabaseProvider databaseProvider)
+            DatabaseProvider databaseProvider, string schema)
         {
             DbConnection = dbConnection;
-            ServiceCollection = serviceCollection;
             ServiceProvider = serviceProvider;
             DatabaseProvider = databaseProvider;
+            Schema = schema;
         }
         
         public IDbConnection DbConnection { get; }
         public DatabaseProvider DatabaseProvider { get; }
-        public IServiceCollection ServiceCollection { get; }
         public IServiceProvider ServiceProvider { get; }
         public string Schema { get; }
         
