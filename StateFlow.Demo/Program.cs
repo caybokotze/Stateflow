@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.X509;
 using Stateflow;
 
 namespace StateFlow.Demo
@@ -21,7 +21,6 @@ namespace StateFlow.Demo
                     .Create(Activator
                         .CreateInstance<IDbConnection>()))
                 .BuildServiceProvider();
-
 
             var logger = (serviceProvider.GetService<ILoggerFactory>() ?? throw new NullReferenceException())
                 .CreateLogger<Program>();
@@ -59,6 +58,12 @@ namespace StateFlow.Demo
         }
     }
 
+    public class EmailDetails
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
+
     public class EmailWorkflow : Workflow
     {
         public EmailWorkflow(IWorkflowService workflowService)
@@ -69,21 +74,34 @@ namespace StateFlow.Demo
         public enum States
         {
             Initialise,
+            Confirmed,
             Complete
         }
 
         enum Events
         {
-            SendEmail
+            SendEmail,
+            AccountConfirmed
         }
 
         public override void RegisterStates()
         {
-            RegisterState(GlobalStates.Initialise)
+            RegisterState(GlobalState.Initialise)
                  .RegisterAction(new SendEmailAction())
                  .RaiseEventOn(Events.SendEmail)
-                 .ThenChangeStateTo(States.Complete)
+                 .ThenChangeStateTo(States.Confirmed)
                  .SaveState();
+
+            RegisterState(States.Confirmed)
+                .RegisterAction(new SendEmailAction())
+                .RaiseEventOn(Events.AccountConfirmed)
+                .ThenChangeStateTo(States.Complete)
+                .SaveState();
+            
+            RegisterState(GlobalState.Complete)
+                .RegisterAction(new SendEmailAction())
+                .RaiseEventOn(Events.SendEmail)
+                .SaveState();
         }
     }
 }

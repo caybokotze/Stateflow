@@ -54,5 +54,10 @@ namespace Stateflow
                 RaiseOnEvent = currentState.RaiseOnEvent
             });
         }
+
+        public static void SaveState(this EventConfigured eventConfigured)
+        {
+            
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Stateflow
         private IWorkflowService WorkflowService { get; }
         private IWorkflowConfiguration WorkflowConfiguration { get; }
         
-        protected static class GlobalStates
+        protected static class GlobalState
         {
             public const string Initialise = "Initialise";
             public const string Complete = "Complete";
