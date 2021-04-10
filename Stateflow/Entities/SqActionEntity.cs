@@ -4,7 +4,7 @@ namespace Stateflow.Entities
 {
     public class SqActionEntity : TableBase
     {
-        public SqActionEntity(): this(default, "", "")
+        public SqActionEntity(string schema, string tableName): this(default, schema, tableName)
         {
             
         }

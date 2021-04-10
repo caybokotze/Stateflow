@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Dapper;
 using Stateflow.Entities;
 
@@ -8,8 +7,6 @@ namespace Stateflow
 {
     public abstract class StateManager
     {
-      
-        
         private IWorkflowService WorkflowService { get; }
         private IWorkflowConfiguration WorkflowConfiguration { get; }
         
@@ -34,12 +31,14 @@ namespace Stateflow
 
         public void ForceStateOverride(string stateName)
         {
+            // implement some logic here...
             return;
         }
 
         protected void RaiseEvent(string eventName)
         {
-            
+            // implement some logic here...
+            return;
         }
 
         protected StateConfiguration DisposeState(string stateName)
@@ -56,18 +55,19 @@ namespace Stateflow
         {
             var workflow = new WorkflowEntity
             {
-                StateName = stateName,
-                WorkflowType = ClassHelper.GetNameOfCallingClass()
+                CurrentState = stateName,
+                WorkflowName = ClassHelper.GetNameOfCallingClass()
             };
 
             return new StateConfiguration(WorkflowConfiguration)
             {
                 Initialised = true,
-                StateName = stateName
+                CurrentStateConfiguration =
+                {
+                    CurrentState = stateName
+                }
             };
         }
-
-        
         
         protected StateConfiguration RegisterState(Enum stateName)
         {

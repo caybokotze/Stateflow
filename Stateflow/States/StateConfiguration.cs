@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Principal;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -10,7 +9,7 @@ namespace Stateflow
         public class RegisteredState
         {
             public string CurrentState { get; set; }
-            public string Action { get; set; }
+            public string ActionName { get; set; }
             public string RaiseOnEvent { get; set; }
             public string ChangeStateTo { get; set;}
         }
@@ -19,7 +18,7 @@ namespace Stateflow
 
         public void DisposeState()
         {
-            CurrentStateConfiguration.Action = String.Empty;
+            CurrentStateConfiguration.ActionName = String.Empty;
             CurrentStateConfiguration.CurrentState = String.Empty;
             CurrentStateConfiguration.ChangeStateTo = String.Empty;
             CurrentStateConfiguration.RaiseOnEvent = String.Empty;
@@ -36,7 +35,7 @@ namespace Stateflow
         }
 
         public bool Initialised { get; set; }
-        public string StateName { get; set; }
+        public string WorkflowName { get; set; }
         public bool Complete { get; set; }
     }
     

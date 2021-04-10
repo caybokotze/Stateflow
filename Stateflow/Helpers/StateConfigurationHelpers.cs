@@ -17,11 +17,8 @@ namespace Stateflow
         {
             stateConfiguration
                 .CurrentStateConfiguration
-                .Action = workflowAction
-                .GetType()
-                .GetProperties()
-                .ToString();
-            
+                .ActionName = workflowAction.GetType().ToString();
+
             return new StateConfigured(stateConfiguration);
         }
 
@@ -37,11 +34,6 @@ namespace Stateflow
         
         public static StateConfigured ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
         {
-            var workflow = new WorkflowEntity()
-            {
-                StateName = eventConfigured.StateConfiguration.StateName
-            };
-            
             return new StateConfigured(eventConfigured.StateConfiguration);
         }
     }

@@ -1,9 +1,14 @@
-﻿namespace Stateflow.Entities
+﻿using System;
+
+namespace Stateflow.Entities
 {
     public class WorkflowEntity
     {
-        public string StateName { get; set; }
-        public ulong Id { get; set; }
-        public string WorkflowType { get; set; }
+        public string CurrentState { get; set; }
+        public int Id { get; set; }
+        public Guid Uuid { get; set; }
+        public string WorkflowName { get; set; }
+        public DateTime DateCreated { get; set; }
+        public bool IsActive { get; set; }
     }
 }

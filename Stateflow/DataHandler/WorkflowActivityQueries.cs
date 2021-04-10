@@ -49,11 +49,9 @@ namespace Stateflow
                 return Sql;
             }
             
-            var stateEntity = new SqActionEntity();
-
             return TSqlExporter
                 .Default
-                .ToSql(stateEntity
+                .ToSql(StateEntity
                     .Script
                     .DropAndCreate());
         }
