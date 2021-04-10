@@ -18,23 +18,22 @@ namespace Stateflow
             stateConfiguration
                 .CurrentStateConfiguration
                 .ActionName = workflowAction.GetType().ToString();
+            
 
             return new StateConfigured(stateConfiguration);
         }
 
-        public static StateConfigured ThenChangeStateTo(this EventConfigured eventConfigured, string stateName)
+        public static void ThenChangeStateTo(this EventConfigured eventConfigured, string stateName)
         {
             eventConfigured
                 .StateConfiguration
                 .CurrentStateConfiguration
                 .ChangeStateTo = stateName;
-            
-            return new StateConfigured(eventConfigured.StateConfiguration);
         }
         
-        public static StateConfigured ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
+        public static void ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
         {
-            return new StateConfigured(eventConfigured.StateConfiguration);
+            ThenChangeStateTo(eventConfigured, stateName.ToString());
         }
     }
 }
