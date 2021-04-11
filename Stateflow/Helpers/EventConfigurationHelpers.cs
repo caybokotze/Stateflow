@@ -5,7 +5,7 @@ namespace Stateflow
 {
     public static class EventConfigurationHelpers
     {
-        public static EventConfigured RaiseEventOn(
+        public static EventConfigured ExecuteActionOnEvent(
             this StateConfigured stateConfigured, 
             string eventName)
         {
@@ -17,11 +17,11 @@ namespace Stateflow
             return new EventConfigured(stateConfigured.StateConfiguration);
         }
         
-        public static EventConfigured RaiseEventOn(
+        public static EventConfigured ExecuteActionOnEvent(
             this StateConfigured stateConfigured,
             Enum eventName)
         {
-            return RaiseEventOn(stateConfigured, eventName.ToString());
+            return ExecuteActionOnEvent(stateConfigured, eventName.ToString());
         }
     }
 }

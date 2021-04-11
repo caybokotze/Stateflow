@@ -7,10 +7,13 @@ namespace Stateflow
 {
     public abstract class Workflow : StateManager, IComparable<Workflow>
     {
+        public IWorkflowService WorkflowService { get; }
+
         public Workflow(
             IWorkflowService workflowService) :
             base(workflowService)
         {
+            WorkflowService = workflowService;
         }
         
         protected WorkflowEntity WorkflowEntity { get; set; }

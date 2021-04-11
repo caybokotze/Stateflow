@@ -32,10 +32,9 @@ namespace StateFlow.Demo
             var workflowService = serviceProvider
                 .GetService<WorkflowService>();
             
-            emailWorkflow.RaiseEvent(EmailWorkflow.Events.SendEmail);
+            emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail);
             
-            workflowService.InitialiseWorkflows();
-            
+            workflowService?.InitialiseWorkflows();
             emailWorkflow?.RegisterStates();
             emailWorkflow?.RaiseEvent("SomeEvent");
             emailWorkflow?.ForceStateOverride("Something");

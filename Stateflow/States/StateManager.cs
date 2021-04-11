@@ -26,13 +26,14 @@ namespace Stateflow
         public void ForceStateOverride(string stateName)
         {
             // implement some logic here...
-            return;
         }
 
         protected void RaiseEvent(string eventName)
         {
-            var workflowName = ClassHelper.GetNameOfCallingClass();
-            var workflowActions = StateManagementData.FetchWorkflowActionsByWorkflowName(workflowName);
+            var workflowName = ClassHelper
+                .GetNameOfCallingClass();
+            var workflowActions = StateManagementData
+                .FetchWorkflowActionsByWorkflowName(workflowName);
 
             foreach (var action in workflowActions.WorkflowActionList)
             {
@@ -58,7 +59,7 @@ namespace Stateflow
             }
 
             var activatedAction = (WorkflowAction)Activator.CreateInstance(action);
-            activatedAction?.SetData(workflowActionEntity.ActionBody);
+            activatedAction?.SetData(Serializers.MessagePack.Deserialize(workflowActionEntity.ActionBody));
             activatedAction?.ExecuteAction();
         }
 

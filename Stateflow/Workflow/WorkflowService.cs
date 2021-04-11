@@ -27,17 +27,14 @@ namespace Stateflow
         public void InitialiseWorkflows()
         {
             StateManagementData.CreateWorkflowTable(this);
+            RegisterAllStates();
         }
 
         private static string RegisterStates = "RegisterStates"; 
 
         private void RegisterAllStates()
         {
-            
-            // note: I'm not sure if CurrentDomain would cover the required scope of the entire application.
-            // var enumerable = AppDomain.CurrentDomain.GetAssemblies()
-            //     .SelectMany(s => s.GetTypes())
-            //     .Where(w => type.IsAssignableFrom(w));
+            // not sure if this is the best implementation or not?
             
             var type = typeof(Workflow);
             var workflows = Assembly

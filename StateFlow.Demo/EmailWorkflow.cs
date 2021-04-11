@@ -1,4 +1,5 @@
-﻿using Stateflow;
+﻿using Org.BouncyCastle.X509.Extension;
+using Stateflow;
 
 namespace StateFlow.Demo
 {
@@ -25,20 +26,20 @@ namespace StateFlow.Demo
         public override void RegisterStates()
         {
             RegisterState(GlobalState.Initialise)
-                .RegisterAction(new SendEmailAction())
-                .RaiseEventOn(Events.SendEmail)
+                .RegisterAction(new SendEmailAction(this.WorkflowService))
+                .ExecuteActionOnEvent(Events.SendEmail)
                 .ThenChangeStateTo(States.Confirmed)
                 .SaveState();
 
             RegisterState(States.Confirmed)
-                .RegisterAction(new SendEmailAction())
-                .RaiseEventOn(Events.AccountConfirmed)
+                .RegisterAction(new SendEmailAction(this.WorkflowService))
+                .ExecuteActionOnEvent(Events.AccountConfirmed)
                 .ThenChangeStateTo(States.Complete)
                 .SaveState();
             
             RegisterState(GlobalState.Complete)
-                .RegisterAction(new SendEmailAction())
-                .RaiseEventOn(Events.SendEmail)
+                .RegisterAction(new SendEmailAction(this.WorkflowService))
+                .ExecuteActionOnEvent(Events.SendEmail)
                 .SaveState();
         }
     }
