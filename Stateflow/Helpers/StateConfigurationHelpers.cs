@@ -22,7 +22,7 @@ namespace Stateflow
                 .CurrentStateConfiguration
                 .ActionName = workflowAction.GetType().ToString();
 
-            var data = workflowAction.SetData();
+            var data = workflowAction.GetData();
             var T = data.type;
             var serializedObject = MessagePack.Serialize(data.obj);
 

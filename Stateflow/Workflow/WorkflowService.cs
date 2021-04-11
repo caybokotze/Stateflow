@@ -2,7 +2,6 @@
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -34,13 +33,13 @@ namespace Stateflow
 
         private void RegisterAllStates()
         {
-            var type = typeof(Workflow);
             
             // note: I'm not sure if CurrentDomain would cover the required scope of the entire application.
             // var enumerable = AppDomain.CurrentDomain.GetAssemblies()
             //     .SelectMany(s => s.GetTypes())
             //     .Where(w => type.IsAssignableFrom(w));
             
+            var type = typeof(Workflow);
             var workflows = Assembly
                 .GetExecutingAssembly()
                 .GetTypes()
@@ -60,9 +59,8 @@ namespace Stateflow
                 workflow
                     .InvokeMember(RegisterStates, 
                         BindingFlags.InvokeMethod | BindingFlags.Instance, 
-                        null, 
-                        null, 
-                        null);
+                        null,
+                        instance, null);
             }
         }
     }

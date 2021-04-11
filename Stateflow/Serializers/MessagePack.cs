@@ -18,5 +18,10 @@ namespace Stateflow.Serializers
             serializer.Pack(byteStream, obj);
             return byteStream.ToString();
         }
+
+        public static object Deserialize(string obj)
+        {
+            
+        }
     }
 }

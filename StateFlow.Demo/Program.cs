@@ -26,7 +26,15 @@ namespace StateFlow.Demo
             
             logger.Log(LogLevel.Debug, "Hi there");
 
-            var emailWorkflow = serviceProvider.GetService<EmailWorkflow>();
+            var emailWorkflow = serviceProvider
+                .GetService<EmailWorkflow>();
+            
+            var workflowService = serviceProvider
+                .GetService<WorkflowService>();
+            
+            emailWorkflow.RaiseEvent(EmailWorkflow.Events.SendEmail);
+            
+            workflowService.InitialiseWorkflows();
             
             emailWorkflow?.RegisterStates();
             emailWorkflow?.RaiseEvent("SomeEvent");
@@ -46,73 +54,6 @@ namespace StateFlow.Demo
                 null, 
                 DatabaseProvider.MySql, 
                 "workflow_test");
-        }
-    }
-    
-    public class SendEmailAction : WorkflowAction
-    {
-        public EmailDetails EmailDetails { get; set; }
-
-        public override void SetData(object obj)
-        {
-            EmailDetails = (EmailDetails)obj;
-        }
-
-        public override (object obj, Type type) GetData()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ExecuteAction()
-        {
-            Console.WriteLine("Email is sending...");
-        }
-    }
-
-    public class EmailDetails
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-    }
-
-    public class EmailWorkflow : Workflow
-    {
-        public EmailWorkflow(IWorkflowService workflowService)
-            : base(workflowService)
-        {
-        }
-
-        public enum States
-        {
-            Initialise,
-            Confirmed,
-            Complete
-        }
-
-        enum Events
-        {
-            SendEmail,
-            AccountConfirmed
-        }
-
-        public override void RegisterStates()
-        {
-            RegisterState(GlobalState.Initialise)
-                 .RegisterAction(new SendEmailAction())
-                 .RaiseEventOn(Events.SendEmail)
-                 .ThenChangeStateTo(States.Confirmed)
-                 .SaveState();
-
-            RegisterState(States.Confirmed)
-                .RegisterAction(new SendEmailAction())
-                .RaiseEventOn(Events.AccountConfirmed)
-                .ThenChangeStateTo(States.Complete)
-                .SaveState();
-            
-            RegisterState(GlobalState.Complete)
-                .RegisterAction(new SendEmailAction())
-                .RaiseEventOn(Events.SendEmail)
-                .SaveState();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
@@ -31,13 +33,33 @@ namespace Stateflow
         {
             var workflowName = ClassHelper.GetNameOfCallingClass();
             var workflowActions = StateManagementData.FetchWorkflowActionsByWorkflowName(workflowName);
-            
 
-            // check whether the workflow is active.
-            // get a list of all the activities.
-            // check whether the activity matches the current state.
-            // 
-            return;
+            foreach (var action in workflowActions.WorkflowActionList)
+            {
+                if (action.ExecutionState
+                    .Equals(workflowActions.WorkflowEntity.CurrentState)
+                &&  action.ExecuteOnEvent
+                    .Equals(eventName))
+                {
+                    InvokeAction(action);
+                }
+            }
+        }
+
+        private void InvokeAction(WorkflowActionEntity workflowActionEntity)
+        {
+            var action = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .FirstOrDefault(w => w.Name.Equals(workflowActionEntity.ActionName));
+            
+            if (action is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            var activatedAction = (WorkflowAction)Activator.CreateInstance(action);
+            activatedAction?.SetData(workflowActionEntity.ActionBody);
+            activatedAction?.ExecuteAction();
         }
 
         protected StateConfiguration DisposeState(string stateName)
