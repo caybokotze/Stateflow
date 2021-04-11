@@ -3,7 +3,6 @@ using System.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1.X509;
 using Stateflow;
 
 namespace StateFlow.Demo
@@ -52,6 +51,17 @@ namespace StateFlow.Demo
     
     public class SendEmailAction : WorkflowAction
     {
+        public EmailDetails EmailDetails { get; set; }
+
+        public override (object obj, Type type) SetData()
+        {
+            return (new
+                {
+                    EmailDetails
+                }, 
+                GetType());
+        }
+
         public override void ExecuteAction()
         {
             Console.WriteLine("Email is sending...");

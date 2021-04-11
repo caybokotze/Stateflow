@@ -43,8 +43,6 @@ namespace Stateflow
 
     public static class ReflectiveEnumerator
     {
-        // public static List<Workflow> workflows = typeof(Workflow).Assembly.GetTypes()
-        //     .Where(w => w.IsSubclassOf(typeof(Workflow)) && !w.IsAbstract).Select(s => s.);
         public static IEnumerable<T> GetEnumerableOfType<T>()
             where T : class, IComparable<T>
         {

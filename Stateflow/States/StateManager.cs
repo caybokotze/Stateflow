@@ -1,5 +1,4 @@
 ﻿using System;
-using Dapper;
 using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
@@ -22,13 +21,6 @@ namespace Stateflow
             WorkflowConfiguration = new WorkflowConfiguration(workflowService);
         }
 
-        private Workflow GetWorkflow(ulong id)
-        {
-            return WorkflowService.DbConnection
-                .QueryFirst<Workflow>("SELECT * FROM stores WHERE id = @id",
-                    new { id = id });
-        }
-
         public void ForceStateOverride(string stateName)
         {
             // implement some logic here...
@@ -37,7 +29,13 @@ namespace Stateflow
 
         protected void RaiseEvent(string eventName)
         {
-            // implement some logic here...
+            var workflowName = ClassHelper.GetNameOfCallingClass();
+            
+            
+            // check whether the workflow is active.
+            // get a list of all the activities.
+            // check whether the activity matches the current state.
+            // 
             return;
         }
 
@@ -58,10 +56,9 @@ namespace Stateflow
                 CurrentState = stateName,
                 WorkflowName = ClassHelper.GetNameOfCallingClass()
             };
-
+            
             return new StateConfiguration(WorkflowConfiguration)
             {
-                Initialised = true,
                 CurrentStateConfiguration =
                 {
                     CurrentState = stateName

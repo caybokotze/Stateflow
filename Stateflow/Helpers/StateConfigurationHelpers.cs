@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Stateflow.Entities;
+using Stateflow.Serializers;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -19,7 +21,10 @@ namespace Stateflow
             stateConfiguration
                 .CurrentStateConfiguration
                 .ActionName = workflowAction.GetType().ToString();
-            
+
+            var data = workflowAction.SetData();
+            var T = data.type;
+            var serializedObject = MessagePack.Serialize(data.obj);
 
             return new StateConfigured(stateConfiguration);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -13,6 +14,8 @@ namespace Stateflow
             public string RaiseOnEvent { get; set; }
             public string ChangeStateTo { get; set;}
         }
+
+        private WorkflowEntity WorkflowEntity { get; }
         
         public RegisteredState CurrentStateConfiguration { get; set; }
 
@@ -26,17 +29,12 @@ namespace Stateflow
         
         public List<RegisteredState> RegisteredStates { get; set; }
         
-        public IWorkflowConfiguration Configuration { get; }
+        public IWorkflowConfiguration WorkflowConfiguration { get; }
 
-        public StateConfiguration(IWorkflowConfiguration configuration)
+        public StateConfiguration(IWorkflowConfiguration workflowConfiguration)
         {
-            Configuration = configuration;
-            Complete = false;
+            WorkflowConfiguration = workflowConfiguration;
         }
-
-        public bool Initialised { get; set; }
-        public string WorkflowName { get; set; }
-        public bool Complete { get; set; }
     }
     
     public class WorkflowConfiguration : IWorkflowConfiguration
