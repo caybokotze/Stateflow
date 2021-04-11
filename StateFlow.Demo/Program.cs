@@ -53,13 +53,14 @@ namespace StateFlow.Demo
     {
         public EmailDetails EmailDetails { get; set; }
 
-        public override (object obj, Type type) SetData()
+        public override void SetData(object obj)
         {
-            return (new
-                {
-                    EmailDetails
-                }, 
-                GetType());
+            EmailDetails = (EmailDetails)obj;
+        }
+
+        public override (object obj, Type type) GetData()
+        {
+            throw new NotImplementedException();
         }
 
         public override void ExecuteAction()

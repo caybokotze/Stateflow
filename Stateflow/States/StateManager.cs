@@ -30,8 +30,9 @@ namespace Stateflow
         protected void RaiseEvent(string eventName)
         {
             var workflowName = ClassHelper.GetNameOfCallingClass();
+            var workflowActions = StateManagementData.FetchWorkflowActionsByWorkflowName(workflowName);
             
-            
+
             // check whether the workflow is active.
             // get a list of all the activities.
             // check whether the activity matches the current state.

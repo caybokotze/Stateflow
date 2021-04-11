@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using System.Linq;
 using Dapper;
 using Stateflow.Entities;
@@ -23,15 +23,48 @@ namespace Stateflow
                             new DbExecutionContext(Constants.WorkflowTableName, workflowService.Schema)))
                 .FirstOrDefault();
         }
-
-        public static int CreateOrUpdateWorkflow(IWorkflowService workflowService, WorkflowEntity workflowEntity)
+        
+        public static int CreateWorkflowActionTable(
+            IWorkflowService workflowService)
         {
             return 0;
         }
 
-        public static int CreateWorkflowActionTable()
+        public static int CreateOrUpdateWorkflow(
+            IWorkflowService workflowService, 
+            WorkflowEntity workflowEntity)
         {
             return 0;
+        }
+
+        public static int CreateOrUpdateWorkflowAction(
+            IWorkflowService workflowService, 
+            WorkflowActionEntity workflowActionEntity)
+        {
+            return 0;
+        }
+
+        public static WorkflowEntity FetchWorkflowByUuid(Guid id)
+        {
+            return new WorkflowEntity
+                {
+                    
+                };
+        }
+
+        public static WorkflowActionEntity FetchWorkflowEntityByUuid(Guid id)
+        {
+            return new WorkflowActionEntity();
+        }
+
+        public static WorkflowActions FetchWorkflowActionsByWorkflowUuid(Guid id)
+        {
+            return new WorkflowActions();
+        }
+        
+        public static WorkflowActions FetchWorkflowActionsByWorkflowName(string name)
+        {
+            return new WorkflowActions();
         }
     }
 }
