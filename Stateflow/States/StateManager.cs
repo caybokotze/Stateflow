@@ -65,7 +65,11 @@ namespace Stateflow
             }
 
             var activatedAction = (WorkflowAction)Activator.CreateInstance(action);
-            activatedAction?.SetData(Serializers.MessagePack.Deserialize(workflowActionEntity.ActionBody));
+            
+            activatedAction?.SetData(Serializers
+                .MessagePack
+                .Deserialize(workflowActionEntity.ActionBody));
+            
             activatedAction?.ExecuteAction();
         }
 
