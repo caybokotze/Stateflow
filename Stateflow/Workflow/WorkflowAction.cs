@@ -16,15 +16,11 @@ namespace Stateflow
         T ExecuteAction();
     }
     
-    public abstract class WorkflowAction : StateManager, IWorkflowAction
+    public abstract class WorkflowAction : IWorkflowAction
     {
         public abstract void SetData(object obj);
         public abstract (object obj, Type type) GetData();
 
         public abstract void ExecuteAction();
-
-        protected WorkflowAction(IWorkflowService workflowService) : base(workflowService)
-        {
-        }
     }
 }

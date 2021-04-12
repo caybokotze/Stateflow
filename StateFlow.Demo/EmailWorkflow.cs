@@ -12,7 +12,6 @@ namespace StateFlow.Demo
 
         public enum States
         {
-            Initialise,
             Confirmed,
             Complete
         }
@@ -26,19 +25,19 @@ namespace StateFlow.Demo
         public override void RegisterStates()
         {
             RegisterState(GlobalState.Initialise)
-                .RegisterAction(new SendEmailAction(this.WorkflowService))
+                .RegisterAction(new SendEmailAction())
                 .ExecuteActionOnEvent(Events.SendEmail)
                 .ThenChangeStateTo(States.Confirmed)
                 .SaveState();
 
             RegisterState(States.Confirmed)
-                .RegisterAction(new SendEmailAction(this.WorkflowService))
+                .RegisterAction(new SendEmailAction())
                 .ExecuteActionOnEvent(Events.AccountConfirmed)
                 .ThenChangeStateTo(States.Complete)
                 .SaveState();
             
             RegisterState(GlobalState.Complete)
-                .RegisterAction(new SendEmailAction(this.WorkflowService))
+                .RegisterAction(new SendEmailAction())
                 .ExecuteActionOnEvent(Events.SendEmail)
                 .SaveState();
         }

@@ -26,20 +26,23 @@ namespace StateFlow.Demo
             
             logger.Log(LogLevel.Debug, "Hi there");
 
-            var emailWorkflow = serviceProvider
-                .GetService<EmailWorkflow>();
-            
             var workflowService = serviceProvider
                 .GetService<WorkflowService>();
             
-            emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail);
+            var emailWorkflow = serviceProvider
+                .GetService<EmailWorkflow>();
             
             workflowService?.InitialiseWorkflows();
-            emailWorkflow?.RegisterStates();
-            emailWorkflow?.RaiseEvent("SomeEvent");
-            emailWorkflow?.ForceStateOverride("Something");
             
-            logger.LogDebug("eyo!");
+            emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail, new SendEmailAction()
+            {
+                EmailDetails = new EmailDetails
+                {
+                    Email = "caybokotze@gmail.com",
+                    Name = "Caybo"
+                }
+            });
+
             Console.WriteLine("finished.");
         }
     }

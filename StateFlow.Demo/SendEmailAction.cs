@@ -24,9 +24,5 @@ namespace StateFlow.Demo
         {
             Console.WriteLine("Email is sending...");
         }
-
-        public SendEmailAction(IWorkflowService workflowService) : base(workflowService)
-        {
-        }
     }
 }

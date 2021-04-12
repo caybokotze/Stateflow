@@ -6,7 +6,7 @@ using Stateflow.Entities;
 // ReSharper disable CheckNamespace
 namespace Stateflow
 {
-    public abstract class StateManager
+    public class StateManager
     {
         private IWorkflowService WorkflowService { get; }
         private IWorkflowConfiguration WorkflowConfiguration { get; }
@@ -28,10 +28,16 @@ namespace Stateflow
             // implement some logic here...
         }
 
-        protected void RaiseEvent(string eventName)
+        public void RaiseEvent(Enum eventName, WorkflowAction workflowAction = null)
+        {
+            RaiseEvent(eventName.ToString(), workflowAction);
+        }
+
+        public void RaiseEvent(string eventName, WorkflowAction workflowAction = null)
         {
             var workflowName = ClassHelper
                 .GetNameOfCallingClass();
+            
             var workflowActions = StateManagementData
                 .FetchWorkflowActionsByWorkflowName(workflowName);
 

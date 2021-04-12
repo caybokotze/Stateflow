@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -30,7 +31,7 @@ namespace Stateflow
             RegisterAllStates();
         }
 
-        private static string RegisterStates = "RegisterStates"; 
+        private static string RegisterStates = "RegisterStates";
 
         private void RegisterAllStates()
         {
