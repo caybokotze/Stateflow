@@ -6,7 +6,7 @@ using Stateflow.Entities;
 // ReSharper disable once CheckNamespace
 namespace Stateflow
 {
-    public static class StateManagementData
+    public static class StateflowDbContext
     {
         private static class Constants
         {

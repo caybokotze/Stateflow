@@ -34,14 +34,7 @@ namespace StateFlow.Demo
             
             workflowService?.InitialiseWorkflows();
             
-            emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail, new SendEmailAction()
-            {
-                EmailDetails = new EmailDetails
-                {
-                    Email = "caybokotze@gmail.com",
-                    Name = "Caybo"
-                }
-            });
+            emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail);
 
             Console.WriteLine("finished.");
         }

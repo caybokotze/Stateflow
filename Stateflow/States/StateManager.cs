@@ -27,18 +27,51 @@ namespace Stateflow
         {
             // implement some logic here...
         }
-
-        public void RaiseEvent(Enum eventName, WorkflowAction workflowAction = null)
+        
+        // this code will do the following:
+        // - take an action as a parameter.
+        // - Call GetData() on that action.
+        // - create a new workflowActionEntity and persist the actionData to the db along with the workflowId.
+        public void InitialiseAction(WorkflowAction workflowAction, DateTime? dateToExecute = null)
         {
-            RaiseEvent(eventName.ToString(), workflowAction);
+            // find workflow in db.
+            // get workflow in db
+            var workflowName = ClassHelper.GetNameOfCallingClass();
+            var action = workflowAction.GetData();
+            var type = action.type;
+            var serializedAction = Serializers.MessagePack.Serialize(action.obj);
+            
+            var actionEntity = new WorkflowActionEntity
+            {
+                Uuid = Guid.NewGuid(),
+                Retries = 0,
+                ActionBody = serializedAction,
+                ActionName = type.ToString(),
+                IsComplete = false,
+                DateToExecute = dateToExecute,
+                DateExpires = null,
+                DateCreated = DateTime.UtcNow,
+                DateModified = DateTime.UtcNow,
+                DateProcessed = DateTime.UtcNow
+            };
         }
 
-        public void RaiseEvent(string eventName, WorkflowAction workflowAction = null)
+        public void RaiseEvent(Enum eventName)
+        {
+            RaiseEvent(eventName.ToString());
+        }
+
+        // this code will do the following:
+        // - fetch the workflow that is being executed from.
+        // - fetch all the workflowStates for that workflow in the db.
+        // - find the action that needs to be executed.
+        // - if the action that needs to be executed matches the event that is being raised, mark for execution...
+        public void RaiseEvent(string eventName)
         {
             var workflowName = ClassHelper
                 .GetNameOfCallingClass();
             
-            var workflowActions = StateManagementData
+            var workflowActions = StateflowDbContext
                 .FetchWorkflowActionsByWorkflowName(workflowName);
 
             foreach (var action in workflowActions.WorkflowActionList)
@@ -48,12 +81,12 @@ namespace Stateflow
                 &&  action.ExecuteOnEvent
                     .Equals(eventName))
                 {
-                    InvokeAction(action);
+                    HydrateAndExecuteAction(action);
                 }
             }
         }
 
-        private void InvokeAction(WorkflowActionEntity workflowActionEntity)
+        private void HydrateAndExecuteAction(WorkflowActionEntity workflowActionEntity)
         {
             var action = Assembly.GetExecutingAssembly()
                 .GetTypes()

@@ -1,6 +1,7 @@
 ﻿// Resharper disable CheckNamespace
 
 using System;
+using Stateflow.Entities;
 
 namespace Stateflow
 {
@@ -18,6 +19,7 @@ namespace Stateflow
     
     public abstract class WorkflowAction : IWorkflowAction
     {
+        protected WorkflowActionEntity WorkflowActionEntity { get; set; }
         public abstract void SetData(object obj);
         public abstract (object obj, Type type) GetData();
 
