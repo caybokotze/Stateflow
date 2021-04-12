@@ -23,7 +23,10 @@ namespace Stateflow
                 WorkflowState workflowState)
             {
                 return workflowService.DbConnection
-                    .Query<int>(CommandBuilder.CreateOrUpdateWorkflowState(),
+                    .Query<int>(CommandBuilder
+                            .CreateOrUpdateWorkflowState(new DbExecutionContext
+                            (Constants.WorkflowStatesTableName,
+                                workflowService.Schema)),
                         workflowState)
                     .FirstOrDefault();
             }
