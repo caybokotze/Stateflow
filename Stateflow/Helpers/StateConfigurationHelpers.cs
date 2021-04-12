@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using Stateflow.Entities;
 using Stateflow.Serializers;
 
 // ReSharper disable CheckNamespace
@@ -9,20 +6,19 @@ namespace Stateflow
 {
     public static class StateConfigurationHelpers
     {
-        public static StateConfigured RegisterEvent<T>(this StateConfiguration stateConfiguration) where T : IRegisteredEvent
-        {
-            return new StateConfigured(stateConfiguration);
-        }
-
         public static StateConfigured RegisterAction(
             this StateConfiguration stateConfiguration, 
             IWorkflowAction workflowAction)
         {
             stateConfiguration
-                .CurrentStateConfiguration
-                .ActionName = workflowAction.GetType().ToString();
+                .CurrentState
+                .RegisteredState = workflowAction
+                .GetType()
+                .ToString();
 
-            var data = workflowAction.GetData();
+            var data = workflowAction
+                .GetData();
+            
             var T = data.type;
             var serializedObject = MessagePack.Serialize(data.obj);
 
@@ -33,8 +29,8 @@ namespace Stateflow
         {
             eventConfigured
                 .StateConfiguration
-                .CurrentStateConfiguration
-                .ChangeStateTo = stateName;
+                .CurrentState
+                .ThenChangeStateTo = stateName;
             
             return new StateComplete(eventConfigured.StateConfiguration);
         }
@@ -46,23 +42,15 @@ namespace Stateflow
 
         public static void SaveState(this StateComplete stateComplete)
         {
-            var currentState = stateComplete.StateConfiguration.CurrentStateConfiguration;
-            
-            stateComplete
+            var currentState = stateComplete
                 .StateConfiguration
-                .RegisteredStates
-                .Add(new StateConfiguration.RegisteredState()
-            {
-                ActionName = currentState.ActionName,
-                CurrentState = currentState.CurrentState,
-                ChangeStateTo = currentState.ChangeStateTo,
-                RaiseOnEvent = currentState.RaiseOnEvent
-            });
-        }
+                .CurrentState;
 
-        public static void SaveState(this EventConfigured eventConfigured)
-        {
-            
+            StateflowDbContext
+                .Commands
+                .CreateWorkflowState(stateComplete
+                    .StateConfiguration
+                    .WorkflowService, currentState);
         }
     }
 }

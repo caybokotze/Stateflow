@@ -2,7 +2,6 @@
 using SqExpress.SqlExport;
 using Stateflow.Entities;
 
-
 // ReSharper disable once CheckNamespace
 namespace Stateflow
 {
