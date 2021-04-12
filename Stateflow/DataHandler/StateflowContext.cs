@@ -52,6 +52,11 @@ namespace Stateflow
                 };
         }
 
+        public static WorkflowEntity FetchWorkflowByName(string name)
+        {
+            return new WorkflowEntity();
+        }
+
         public static WorkflowActionEntity FetchWorkflowEntityByUuid(Guid id)
         {
             return new WorkflowActionEntity();

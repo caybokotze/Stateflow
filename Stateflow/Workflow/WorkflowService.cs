@@ -31,6 +31,11 @@ namespace Stateflow
             RegisterAllStates();
         }
 
+        public void DisposeWorkflow(Guid workflowUuid)
+        {
+            
+        }
+
         private static string RegisterStates = "RegisterStates";
 
         private void RegisterAllStates()
