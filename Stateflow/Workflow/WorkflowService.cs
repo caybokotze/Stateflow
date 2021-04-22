@@ -27,8 +27,54 @@ namespace Stateflow
         
         public void InitialiseWorkflows()
         {
-            // StateflowDbContext.DDL.CreateWorkflowTable(this);
-            RegisterAllStates();
+            var workflows =  ReflectiveEnumerator
+                .GetEnumerableOfEntryType<Workflow>()
+                .ToList();
+
+            if (!workflows.Any()) throw new NoWorkflowsFoundException();
+
+            foreach (var workflow in workflows)
+            {
+                object typeInstance;
+                try
+                {
+                    typeInstance = Activator.CreateInstance(workflow, this);
+                }
+                catch
+                {
+                    throw new ConstructorParametersNotDefined();
+                }
+
+                var workflowInstance = (Workflow) typeInstance;
+                
+                InitialiseWorkflow(workflowInstance?.GetType().Name);
+
+                if (typeInstance is null)
+                {
+                    throw new InvalidOperationException("Workflow Service tried to initialise an invalid workflow.");
+                }
+
+                workflowInstance.RegisterStates();
+            }
+        }
+
+        private void InitialiseWorkflow(string workflowName)
+        {
+            if (workflowName is null)
+            {
+                throw new NullReferenceException("The workflow specified is null");
+            }
+            
+            var workflow = new WorkflowEntity
+            {
+                CurrentState = StateManager.GlobalState.Initialise,
+                Uuid = Guid.NewGuid(),
+                IsActive = true,
+                WorkflowName = workflowName,
+                DateCreated = DateTime.UtcNow
+            };
+            
+            StateflowDbContext
         }
 
         public void DisposeWorkflow(Guid workflowUuid)
@@ -37,34 +83,5 @@ namespace Stateflow
         }
 
         private static string RegisterStates = "RegisterStates";
-
-        private void RegisterAllStates()
-        {
-            // not sure if this is the best implementation or not?
-            
-            var type = typeof(Workflow);
-
-            var workflows =  ReflectiveEnumerator.GetEnumerableOfType<Workflow>().ToList();
-
-            if (!workflows.Any()) throw new NoWorkflowsFoundException();
-            
-            foreach(var workflow in workflows)
-            {
-                var instance = Activator.CreateInstance(workflow.GetType());
-                
-                instance = (Workflow)instance;
-                
-                if (instance is null)
-                {
-                    throw new InvalidOperationException("Activator.CreateInstance returned null");
-                }
-
-                // workflow.
-                //     .InvokeMember(RegisterStates, 
-                //         BindingFlags.InvokeMethod | BindingFlags.Instance, 
-                //         null,
-                //         instance, null);
-            }
-        }
     }
 }

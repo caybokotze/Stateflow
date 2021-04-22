@@ -43,21 +43,26 @@ namespace Stateflow
 
     public static class ReflectiveEnumerator
     {
-        public static IEnumerable<T> GetEnumerableOfType<T>()
+        public static IEnumerable<Type> GetEnumerableOfEntryType<T>()
             where T : class, IComparable<T>
         {
-            var types = new List<T>();
+            var types = new List<Type>();
             
             // ReSharper disable once PossibleNullReferenceException
+
+            var assembly = Assembly.GetExecutingAssembly().GetTypes();
+            var assembly2 = Assembly.GetCallingAssembly().GetTypes();
+            var assembly3 = Assembly.GetEntryAssembly()?.GetTypes();
+
             foreach (Type type in Assembly
-                .GetAssembly(typeof(T))
+                .GetEntryAssembly()
                 ?.GetTypes()
-                .Where(myType =>
+                ?.Where(myType =>
                 myType.IsClass 
                 && !myType.IsAbstract 
                 && myType.IsSubclassOf(typeof(T))))
             {
-                types.Add(type as T);
+                types.Add(type);
             }
 
             return types;

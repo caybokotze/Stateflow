@@ -10,7 +10,7 @@ namespace Stateflow
     {
         private IWorkflowService WorkflowService { get; }
 
-        protected static class GlobalState
+        public static class GlobalState
         {
             public const string Initialise = "Initialise";
             public const string Complete = "Complete";
@@ -110,7 +110,7 @@ namespace Stateflow
         {
             return new StateConfiguration(WorkflowService)
             {
-                CurrentState =
+                CurrentState = new WorkflowState
                 {
                     RegisteredState = stateName
                 }

@@ -12,15 +12,8 @@ namespace Stateflow
         {
             stateConfiguration
                 .CurrentState
-                .RegisteredState = workflowAction
-                .GetType()
-                .ToString();
-
-            var data = workflowAction
-                .GetData();
-            
-            var T = data.type;
-            var serializedObject = MessagePack.Serialize(data.obj);
+                .RegisteredAction = workflowAction
+                .GetType().Name;
 
             return new StateConfigured(stateConfiguration);
         }

@@ -91,13 +91,5 @@ namespace Stateflow
                 return 0;
             }
         }
-
-        public static WorkflowEntity FetchWorkflowByUuid(Guid id)
-        {
-            return new WorkflowEntity
-                {
-                    
-                };
-        }
     }
 }
