@@ -11,8 +11,8 @@ namespace Stateflow
         {
             stateConfigured
                 .StateConfiguration
-                .CurrentStateConfiguration
-                .RaiseOnEvent = eventName;
+                .CurrentState
+                .RegisteredEvent = eventName;
             
             return new EventConfigured(stateConfigured.StateConfiguration);
         }

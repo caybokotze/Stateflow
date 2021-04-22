@@ -52,5 +52,10 @@ namespace Stateflow
                     .StateConfiguration
                     .WorkflowService, currentState);
         }
+
+        public static void SaveState(this EventConfigured eventConfigured)
+        {
+            //
+        }
     }
 }

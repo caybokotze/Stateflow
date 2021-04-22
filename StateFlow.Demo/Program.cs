@@ -33,6 +33,15 @@ namespace StateFlow.Demo
                 .GetService<EmailWorkflow>();
             
             workflowService?.InitialiseWorkflows();
+
+            emailWorkflow?.InitialiseAction(new SendEmailAction
+            {
+                EmailDetails = new EmailDetails
+                {
+                    Email = "caybokotze@gmail.com",
+                    Name = "Caybo Kotze"
+                }
+            });
             
             emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail);
 

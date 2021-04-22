@@ -27,7 +27,7 @@ namespace Stateflow
         
         public void InitialiseWorkflows()
         {
-            StateflowDbContext.CreateWorkflowTable(this);
+            StateflowDbContext.DDL.CreateWorkflowTable(this);
             RegisterAllStates();
         }
 

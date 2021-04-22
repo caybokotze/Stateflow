@@ -33,9 +33,8 @@ namespace Stateflow
         public void InitialiseAction(WorkflowAction workflowAction, DateTime? dateToExecute = null)
         {
             // find workflow in db.
-            // get workflow in db
             var workflowName = ClassHelper.GetNameOfCallingClass();
-            var workflow = StateflowDbContext.FetchWorkflowByName(workflowName);
+            var workflow = StateflowDbContext.Queries.FetchWorkflowByName(workflowName);
             var action = workflowAction.GetData();
             var type = action.type;
             var serializedAction = Serializers.MessagePack.Serialize(action.obj);
@@ -73,7 +72,7 @@ namespace Stateflow
                 .GetNameOfCallingClass();
             
             var workflowActions = StateflowDbContext
-                .FetchWorkflowActionsByWorkflowName(workflowName);
+                .Queries.FetchWorkflowActionsByWorkflowName(workflowName);
 
             foreach (var action in workflowActions.WorkflowActionList)
             {
