@@ -48,7 +48,8 @@ namespace Stateflow
 
         public static void SaveState(this EventConfigured eventConfigured)
         {
-            //
+            var stateComplete = new StateComplete(eventConfigured.StateConfiguration);
+            stateComplete.SaveState();
         }
     }
 }

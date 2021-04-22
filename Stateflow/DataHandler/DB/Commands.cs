@@ -60,6 +60,43 @@ namespace Stateflow
             {
                 return 0;
             }
+            
+            public static void DeleteWorkflowByUuid(
+                IWorkflowService workflowService, 
+                Guid uuid)
+            {
+                workflowService
+                    .DbConnection
+                    .Query("DELETE FROM workflows WHERE uuid = @Uuid",
+                    new { Uuid = uuid});
+            }
+
+            public static void DeleteActionsByWorkflowUuid(
+                IWorkflowService workflowService, 
+                Guid uuid)
+            {
+                
+            }
+            
+            public static void DeleteWorkflowActionsByWorkflowUuid(
+                IWorkflowService workflowService, 
+                Guid uuid)
+            {
+                workflowService
+                    .DbConnection
+                    .Query("DELETE FROM workflow_actions WHERE workflow_uuid = @Uuid",
+                        new { Uuid = uuid });
+            }
+
+            public static void DeleteWorkflowStatesByWorkflowUuid(
+                IWorkflowService workflowService,
+                Guid uuid)
+            {
+                workflowService
+                    .DbConnection
+                    .Query("DELETE FROM workflow_states WHERE workflow_uuid = @Uuid",
+                        new { Uuid = uuid });
+            }
         }
     }
 }

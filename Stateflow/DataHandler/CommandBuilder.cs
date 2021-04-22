@@ -1,6 +1,6 @@
 ﻿using SqExpress.SqlExport;
 using Stateflow.Entities;
-
+// ReSharper disable CheckNamespace
 namespace Stateflow
 {
     public static class CommandBuilder
@@ -17,20 +17,21 @@ namespace Stateflow
 
         public static string CreateOrUpdateWorkflowState(IDbExecutionContext executionContext)
         {
-            var workflowState = new SqWorkflowState(executionContext.Schema, executionContext.Table);
-
             var query = $"INSERT INTO {executionContext.Table} (" +
-                        $"workflow_uuid, " +
-                        $"registered_state, " +
-                        $"registered_action, " +
-                        $"registered_event, " +
-                        $"then_change_state_to) " +
-                        $"VALUES( " +
-                        $"@WorkflowUuid, " +
-                        $"@RegisteredState, " +
-                        $"@RegisteredAction, " +
-                        $"@RegisteredEvent, " +
-                        $"@ThenChangeStateTo);";
+                        "workflow_uuid, " +
+                        "registered_state, " +
+                        "registered_action, " +
+                        "registered_event, " +
+                        "then_change_state_to) " +
+                        "VALUES( " +
+                        "@WorkflowUuid, " +
+                        "@RegisteredState, " +
+                        "@RegisteredAction, " +
+                        "@RegisteredEvent, " +
+                        "@ThenChangeStateTo) " +
+                        "ON DUPLICATE KEY UPDATE " +
+                        "registered_action = @RegisteredAction, " +
+                        "then_change_state_to = @ThenChangeStateTo;";
 
             return query;
         }

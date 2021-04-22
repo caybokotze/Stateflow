@@ -1,4 +1,5 @@
 ﻿using Stateflow.Entities;
+// ReSharper disable CheckNamespace
 
 namespace Stateflow
 {

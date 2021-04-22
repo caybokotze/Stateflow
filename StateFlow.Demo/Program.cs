@@ -27,8 +27,8 @@ namespace StateFlow.Demo
                               .GetService<ILoggerFactory>()
                           ?? throw new NullReferenceException())
                 .CreateLogger<Program>();
-            
-            // logger.Log(LogLevel.Debug, "Testing...");
+
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
             var workflowService = serviceProvider
                 .GetService<IWorkflowService>();
@@ -36,16 +36,18 @@ namespace StateFlow.Demo
             var emailWorkflow = serviceProvider
                 .GetService<EmailWorkflow>();
             
+            // workflowService?.DisposeWorkflow<EmailWorkflow>();
+            
             workflowService?.InitialiseWorkflows();
 
-            // emailWorkflow?.InitialiseAction(new SendEmailAction
-            // {
-            //     EmailDetails = new EmailDetails
-            //     {
-            //         Email = "caybokotze@gmail.com",
-            //         Name = "Caybo Kotze"
-            //     }
-            // });
+            emailWorkflow?.InitialiseAction(new SendEmailAction
+            {
+                EmailDetails = new EmailDetails
+                {
+                    Email = "caybokotze@gmail.com",
+                    Name = "Caybo Kotze"
+                }
+            });
             
             // emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail);
 

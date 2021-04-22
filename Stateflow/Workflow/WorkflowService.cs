@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using Dapper;
 using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
@@ -86,9 +87,30 @@ namespace Stateflow
             StateflowDbContext.Commands.CreateOrUpdateWorkflow(this, workflow);
         }
 
-        public void DisposeWorkflow(Guid workflowUuid)
+        public void DisposeWorkflow<T>() where T : Workflow
         {
-            // todo: Code that deletes a workflow, workflow_states and workflow_actions...
+            var workflowType = typeof(T);
+            var workflowName = workflowType.Name;
+
+            var workflow = StateflowDbContext
+                .Queries
+                .FetchWorkflowByName(this, workflowName);
+
+            DbConnection.Query("START TRANSACTION;");
+            
+            StateflowDbContext
+                .Commands
+                .DeleteWorkflowByUuid(this, workflow.Uuid);
+            
+            StateflowDbContext
+                .Commands
+                .DeleteActionsByWorkflowUuid(this, workflow.Uuid);
+            
+            StateflowDbContext
+                .Commands
+                .DeleteWorkflowStatesByWorkflowUuid(this, workflow.Uuid);
+
+            DbConnection.Query("COMMIT;");
         }
 
         private static string RegisterStates = "RegisterStates";

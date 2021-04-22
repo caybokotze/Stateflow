@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -12,5 +11,6 @@ namespace Stateflow
         IServiceProvider ServiceProvider { get; }
         string Schema { get; }
         void InitialiseWorkflows();
+        void DisposeWorkflow<T>() where T : Workflow;
     }
 }

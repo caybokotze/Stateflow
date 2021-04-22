@@ -36,7 +36,7 @@ namespace Stateflow
                                     `registered_action`    VARCHAR(255) NOT NULL,
                                     `registered_event`     VARCHAR(255) NOT NULL,
                                     `then_change_state_to` VARCHAR(255) NULL,
-                                    INDEX unique_constraint (`workflow_uuid`, `registered_state`, `registered_event`)
+                                    CONSTRAINT unique_constraint UNIQUE (`workflow_uuid`, `registered_state`, `registered_event`)
                                 );");
             }
 

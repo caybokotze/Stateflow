@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Dapper;
 using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
@@ -107,7 +108,6 @@ namespace Stateflow
             activatedAction?.ExecuteAction();
         }
 
-        
 
         protected StateConfiguration RegisterState(string stateName)
         {
@@ -127,7 +127,7 @@ namespace Stateflow
                 CurrentState = new WorkflowState
                 {
                     RegisteredState = stateName,
-                    WorkflowUuid = Guid.NewGuid()
+                    WorkflowUuid = workflow.Uuid
                 }
             };
         }

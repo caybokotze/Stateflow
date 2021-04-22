@@ -25,7 +25,7 @@ namespace Stateflow
             base.RaiseEvent(eventName);
         }
         
-        public void RaiseEvent(Enum eventName)
+        public new void RaiseEvent(Enum eventName)
         {
             base.RaiseEvent(eventName.ToString());
         }
