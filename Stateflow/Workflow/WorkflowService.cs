@@ -24,9 +24,18 @@ namespace Stateflow
         public DatabaseProvider DatabaseProvider { get; }
         public string Schema { get; }
         public IServiceProvider ServiceProvider { get; }
+
+        private void CreateTablesIfNotExist()
+        {
+            StateflowDbContext.DDL.CreateWorkflowTable(this);
+            StateflowDbContext.DDL.CreateWorkflowActionsTable(this);
+            StateflowDbContext.DDL.CreateWorkflowStatesTable(this);
+        }
         
         public void InitialiseWorkflows()
         {
+            CreateTablesIfNotExist();
+            
             var workflows =  ReflectiveEnumerator
                 .GetEnumerableOfEntryType<Workflow>()
                 .ToList();
@@ -73,8 +82,8 @@ namespace Stateflow
                 WorkflowName = workflowName,
                 DateCreated = DateTime.UtcNow
             };
-            
-            StateflowDbContext
+
+            StateflowDbContext.Commands.CreateOrUpdateWorkflow(this, workflow);
         }
 
         public void DisposeWorkflow(Guid workflowUuid)
