@@ -1,17 +1,22 @@
-﻿// ReSharper disable CheckNamespace
-
-using System;
+﻿using System;
+using System.Linq;
+using Dapper;
 using Stateflow.Entities;
 
+// ReSharper disable CheckNamespace
 namespace Stateflow
 {
     public static partial class StateflowDbContext
     {
         public static class Queries
         {
-            public static WorkflowEntity FetchWorkflowByName(string name)
+            public static WorkflowEntity FetchWorkflowByName(IWorkflowService workflowService, string name)
             {
-                return new WorkflowEntity();
+                return workflowService
+                    .DbConnection
+                    .Query<WorkflowEntity>("SELECT * from workflows WHERE workflow_name = @Name;", 
+                        new { Name = name})
+                    .FirstOrDefault();
             }
 
             public static WorkflowActionEntity FetchWorkflowEntityByUuid(Guid id)

@@ -21,7 +21,7 @@ namespace Stateflow
                     return method.Name;
                 }
                 skipFrames++;
-                fullName = declaringType.FullName;
+                fullName = declaringType.Name;
             }
             while (declaringType.Module.Name.Equals("mscorlib.dll", StringComparison.OrdinalIgnoreCase));
             return fullName;

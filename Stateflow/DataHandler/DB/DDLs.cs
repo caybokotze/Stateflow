@@ -35,7 +35,8 @@ namespace Stateflow
                                     `registered_state`     VARCHAR(255) NOT NULL,
                                     `registered_action`    VARCHAR(255) NOT NULL,
                                     `registered_event`     VARCHAR(255) NOT NULL,
-                                    `then_change_state_to` VARCHAR(255) NULL
+                                    `then_change_state_to` VARCHAR(255) NULL,
+                                    INDEX unique_constraint (`workflow_uuid`, `registered_state`, `registered_event`)
                                 );");
             }
 
@@ -46,7 +47,7 @@ namespace Stateflow
                                 (
                                     `id`              BIGINT AUTO_INCREMENT PRIMARY KEY,
                                     `uuid`            CHAR(36)              NOT NULL UNIQUE,
-                                    `workflowUuid`    CHAR(36)              NOT NULL,
+                                    `workflow_uuid`    CHAR(36)              NOT NULL,
                                     `retries`         INT                   NOT NULL,
                                     `action_body`     TEXT     DEFAULT NULL NULL,
                                     `action_name`     VARCHAR(255)          NOT NULL,

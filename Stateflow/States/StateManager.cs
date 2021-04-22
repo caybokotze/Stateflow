@@ -9,6 +9,7 @@ namespace Stateflow
     public class StateManager
     {
         private IWorkflowService WorkflowService { get; }
+        public string CurrentWorkflowName { get; set; }
 
         public static class GlobalState
         {
@@ -34,7 +35,7 @@ namespace Stateflow
         {
             // find workflow in db.
             var workflowName = ClassHelper.GetNameOfCallingClass();
-            var workflow = StateflowDbContext.Queries.FetchWorkflowByName(workflowName);
+            var workflow = StateflowDbContext.Queries.FetchWorkflowByName(this.WorkflowService, workflowName);
             var action = workflowAction.GetData();
             var type = action.type;
             var serializedAction = Serializers.MessagePack.Serialize(action.obj);
@@ -106,19 +107,35 @@ namespace Stateflow
             activatedAction?.ExecuteAction();
         }
 
+        
+
         protected StateConfiguration RegisterState(string stateName)
         {
+            CurrentWorkflowName ??= ClassHelper.GetNameOfCallingClass();
+            
+            var workflow = StateflowDbContext
+                .Queries
+                .FetchWorkflowByName(WorkflowService, CurrentWorkflowName);
+
+            if (workflow is null)
+            {
+                throw new NullReferenceException("The workflow configured for this state can not be found");
+            }
+            
             return new StateConfiguration(WorkflowService)
             {
                 CurrentState = new WorkflowState
                 {
-                    RegisteredState = stateName
+                    RegisteredState = stateName,
+                    WorkflowUuid = Guid.NewGuid()
                 }
             };
         }
         
         protected StateConfiguration RegisterState(Enum stateName)
         {
+            CurrentWorkflowName ??= ClassHelper.GetNameOfCallingClass();
+            
             Console.WriteLine(stateName);
             return RegisterState(stateName.ToString());
         }
