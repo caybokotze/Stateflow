@@ -22,18 +22,18 @@ namespace Stateflow
         
         public IDbConnection DbConnection { get; }
         public DatabaseProvider DatabaseProvider { get; }
-        public IServiceProvider ServiceProvider { get; }
         public string Schema { get; }
+        public IServiceProvider ServiceProvider { get; }
         
         public void InitialiseWorkflows()
         {
-            StateflowDbContext.DDL.CreateWorkflowTable(this);
+            // StateflowDbContext.DDL.CreateWorkflowTable(this);
             RegisterAllStates();
         }
 
         public void DisposeWorkflow(Guid workflowUuid)
         {
-            
+            // todo: Code that deletes a workflow, workflow_states and workflow_actions...
         }
 
         private static string RegisterStates = "RegisterStates";
@@ -43,14 +43,14 @@ namespace Stateflow
             // not sure if this is the best implementation or not?
             
             var type = typeof(Workflow);
-            var workflows = Assembly
-                .GetExecutingAssembly()
-                .GetTypes()
-                .Where(w => type.IsAssignableFrom(w));
+
+            var workflows =  ReflectiveEnumerator.GetEnumerableOfType<Workflow>().ToList();
+
+            if (!workflows.Any()) throw new NoWorkflowsFoundException();
             
             foreach(var workflow in workflows)
             {
-                var instance = Activator.CreateInstance(workflow);
+                var instance = Activator.CreateInstance(workflow.GetType());
                 
                 instance = (Workflow)instance;
                 
@@ -59,11 +59,11 @@ namespace Stateflow
                     throw new InvalidOperationException("Activator.CreateInstance returned null");
                 }
 
-                workflow
-                    .InvokeMember(RegisterStates, 
-                        BindingFlags.InvokeMethod | BindingFlags.Instance, 
-                        null,
-                        instance, null);
+                // workflow.
+                //     .InvokeMember(RegisterStates, 
+                //         BindingFlags.InvokeMethod | BindingFlags.Instance, 
+                //         null,
+                //         instance, null);
             }
         }
     }
