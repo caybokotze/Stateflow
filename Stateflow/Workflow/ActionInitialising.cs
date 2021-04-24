@@ -33,9 +33,13 @@ namespace Stateflow
 
         public static void OnWorkflowState(this ActionInitialising actionInitialising, string stateName)
         {
+            actionInitialising.WorkflowActionEntity.ActionState = stateName;
+            var actionEntity = actionInitialising.WorkflowActionEntity;
+            var workflowService = actionInitialising.WorkflowService;
+            
             StateflowDbContext.Commands.CreateOrUpdateWorkflowAction(
-                actionInitialising.WorkflowService, 
-                actionInitialising.WorkflowActionEntity);
+                workflowService, 
+                actionEntity);
         }
 
         public static void OnWorkflowState(this ActionInitialising actionInitialising, Enum stateName)

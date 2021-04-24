@@ -34,6 +34,8 @@ namespace StateFlow.Demo
 
             // workflowService?.DisposeWorkflow<EmailWorkflow>();
             
+            workflowService?.InitialiseWorkflows();
+            
             workflowService?.InitialiseAction<EmailWorkflow>(new SendEmailAction
             {
                 EmailDetails = new EmailDetails
@@ -44,8 +46,6 @@ namespace StateFlow.Demo
             }, DateTime.Now.AddDays(1))
                 .OnWorkflowEvent(EmailWorkflow.Events.AccountConfirmed)
                 .OnWorkflowState(EmailWorkflow.States.Complete);
-            
-            workflowService?.InitialiseWorkflows();
 
             workflowService?
                 .RaiseEvent<EmailWorkflow>(EmailWorkflow.Events.SendEmail);

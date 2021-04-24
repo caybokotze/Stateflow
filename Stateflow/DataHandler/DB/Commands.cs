@@ -66,7 +66,7 @@ namespace Stateflow
                                         `action_body`, 
                                         `action_name`, 
                                         `action_event`, 
-                                        `action_state`
+                                        `action_state`,
                                         `is_complete`, 
                                         `date_expires`,
                                         `date_to_execute`, 
@@ -89,8 +89,7 @@ namespace Stateflow
                                     ON DUPLICATE KEY UPDATE `date_modified` = utc_timestamp(3),
                                                             `retries` = @{nameof(workflowActionEntity.Retries)},
                                                             `action_body` = @{nameof(workflowActionEntity.ActionBody)},
-                                                            `date_to_execute` = @{nameof(workflowActionEntity.DateToExecute)},
-                                                            `date_expires` = @{nameof(workflowActionEntity.DateExpires)},
+                                                            `date_modified` = utc_timestamp(3),
                                                             `date_processed` = @{nameof(workflowActionEntity.DateProcessed)};", 
                         workflowActionEntity)
                     .FirstOrDefault();
