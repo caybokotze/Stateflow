@@ -8,9 +8,8 @@ namespace Stateflow
     public interface IWorkflowService
     {
         IDbConnection DbConnection { get; }
-        DatabaseProvider DatabaseProvider { get; }
+        DatabaseProvider DatabaseProvider { get; set; }
         IServiceProvider ServiceProvider { get; }
-        string Schema { get; }
         void InitialiseWorkflows();
         void DisposeWorkflow<T>() where T : Workflow;
         ActionInitialising InitialiseAction<T>(WorkflowAction workflowAction, DateTime? expiryDate, DateTime? executeOnDate = null) where T : Workflow;

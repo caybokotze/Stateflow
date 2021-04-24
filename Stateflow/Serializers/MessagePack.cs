@@ -4,6 +4,7 @@ using MsgPack.Serialization;
 
 namespace Stateflow.Serializers
 {
+    // message pack should be discarded as we can not serialise objects directly to messagePack.
     public static class MessagePack
     {
         public static string Serialize<T>(object obj)

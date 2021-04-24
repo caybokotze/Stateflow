@@ -46,11 +46,6 @@ namespace StateFlow.Demo
                     .Create(sqlConnection))
                 .BuildServiceProvider();
 
-            var logger = (serviceProvider
-                              .GetService<ILoggerFactory>()
-                          ?? throw new NullReferenceException())
-                .CreateLogger<Program>();
-
             Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
             
             return serviceProvider;
@@ -64,9 +59,10 @@ namespace StateFlow.Demo
             IDbConnection dbConnection)
         {
             return new WorkflowService(dbConnection, 
-                null, 
-                DatabaseProvider.MySql, 
-                false);
+                null)
+            {
+                DatabaseProvider = DatabaseProvider.MySql
+            };
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using System.Reflection;
 using Dapper;
 using Newtonsoft.Json;
 using Stateflow.Entities;
@@ -13,20 +12,15 @@ namespace Stateflow
     {
         public WorkflowService(
             IDbConnection dbConnection,
-            IServiceProvider serviceProvider,
-            DatabaseProvider databaseProvider,
-            bool splitActionTables)
+            IServiceProvider serviceProvider)
         {
             DbConnection = dbConnection;
             ServiceProvider = serviceProvider;
-            DatabaseProvider = databaseProvider;
-            SplitActionTables = splitActionTables;
         }
         
         public IDbConnection DbConnection { get; }
-        public DatabaseProvider DatabaseProvider { get; }
-        public string Schema { get; }
-        public bool SplitActionTables { get; }
+        public DatabaseProvider DatabaseProvider { get; set; }
+        public bool SplitActionTables { get; set; }
         public IServiceProvider ServiceProvider { get; }
 
         private void CreateTablesIfNotExist()
