@@ -12,6 +12,20 @@ namespace Stateflow
             stateConfiguration
                 .CurrentState
                 .RegisteredAction = workflowAction
+                .GetType()
+                .Name;
+
+            return new StateConfigured(stateConfiguration);
+        }
+
+        public static StateConfigured RegisterAction<T>(this StateConfiguration stateConfiguration) where T : WorkflowAction
+        {
+            var type = typeof(T);
+            var workflowAction = type.Name;
+            
+            stateConfiguration
+                .CurrentState
+                .RegisteredAction = workflowAction
                 .GetType().Name;
 
             return new StateConfigured(stateConfiguration);
