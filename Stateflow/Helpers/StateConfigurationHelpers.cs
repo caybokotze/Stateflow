@@ -19,38 +19,24 @@ namespace Stateflow
             return new StateConfigured(stateConfiguration);
         }
 
-        public static StateComplete ThenChangeStateTo(this EventConfigured eventConfigured, string stateName)
+        public static void ThenChangeStateTo(this EventConfigured eventConfigured, string stateName)
         {
             eventConfigured
                 .StateConfiguration
                 .CurrentState
                 .ThenChangeStateTo = stateName;
+
+            var currentState = eventConfigured.StateConfiguration.CurrentState;
+            var workflowService = eventConfigured.StateConfiguration.WorkflowService;
             
-            return new StateComplete(eventConfigured.StateConfiguration);
-        }
-        
-        public static StateComplete ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
-        {
-            return ThenChangeStateTo(eventConfigured, stateName.ToString());
-        }
-
-        public static void SaveState(this StateComplete stateComplete)
-        {
-            var currentState = stateComplete
-                .StateConfiguration
-                .CurrentState;
-
             StateflowDbContext
                 .Commands
-                .CreateWorkflowState(stateComplete
-                    .StateConfiguration
-                    .WorkflowService, currentState);
+                .CreateWorkflowState(workflowService, currentState);
         }
-
-        public static void SaveState(this EventConfigured eventConfigured)
+        
+        public static void ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
         {
-            var stateComplete = new StateComplete(eventConfigured.StateConfiguration);
-            stateComplete.SaveState();
+            ThenChangeStateTo(eventConfigured, stateName.ToString());
         }
     }
 }
