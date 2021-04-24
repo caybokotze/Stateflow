@@ -12,6 +12,7 @@ namespace Stateflow.Entities
         public string ActionBody { get; set; }
         public string ActionName { get; set; }
         public string ActionEvent { get; set; }
+        public string ActionState { get; set; }
         public bool IsComplete { get; set; }
         public DateTime? DateExpires { get; set; }
         public DateTime? DateToExecute { get; set; }

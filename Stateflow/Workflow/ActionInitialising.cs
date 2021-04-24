@@ -20,23 +20,27 @@ namespace Stateflow
     }
     
     public static class WorkflowServiceExtensions {
-        public static void OnEvent(this ActionInitialising actionInitialising, string eventName)
+        public static ActionInitialising OnEvent(this ActionInitialising actionInitialising, string eventName)
         {
             actionInitialising.WorkflowActionEntity.ActionEvent = eventName;
-            
+            return actionInitialising;
+        }
+
+        public static void OnWorkflowEvent(this ActionInitialising actionInitialising, string stateName)
+        {
             StateflowDbContext.Commands.CreateOrUpdateWorkflowAction(
                 actionInitialising.WorkflowService, 
                 actionInitialising.WorkflowActionEntity);
         }
 
-        public static void OnWorkflowEvent(this ActionInitialising actionInitialising, string stateName)
+        public static void OnWorkflowEvent(this ActionInitialising actionInitialising, Enum stateName)
         {
-            
+            OnWorkflowEvent(actionInitialising, stateName.ToString());
         }
         
-        public static void OnEvent(this ActionInitialising actionInitialising, Enum eventName)
+        public static ActionInitialising OnEvent(this ActionInitialising actionInitialising, Enum eventName)
         {
-            OnEvent(actionInitialising, eventName.ToString());
+            return OnEvent(actionInitialising, eventName.ToString());
         }
     }
 }
