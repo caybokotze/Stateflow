@@ -25,6 +25,11 @@ namespace Stateflow
             actionInitialising.WorkflowActionEntity.ActionEvent = eventName;
             return actionInitialising;
         }
+        
+        public static ActionInitialising OnWorkflowEvent(this ActionInitialising actionInitialising, Enum eventName)
+        {
+            return OnWorkflowEvent(actionInitialising, eventName.ToString());
+        }
 
         public static void OnWorkflowState(this ActionInitialising actionInitialising, string stateName)
         {
@@ -36,11 +41,6 @@ namespace Stateflow
         public static void OnWorkflowState(this ActionInitialising actionInitialising, Enum stateName)
         {
             OnWorkflowState(actionInitialising, stateName.ToString());
-        }
-        
-        public static ActionInitialising OnWorkflowEvent(this ActionInitialising actionInitialising, Enum eventName)
-        {
-            return OnWorkflowEvent(actionInitialising, eventName.ToString());
         }
     }
 }

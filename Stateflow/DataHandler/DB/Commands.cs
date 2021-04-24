@@ -96,40 +96,6 @@ namespace Stateflow
                     .FirstOrDefault();
             }
 
-            public static int CreateWorkflowAction(
-                IWorkflowService workflowService, 
-                WorkflowActionEntity workflowActionEntity)
-            {
-                return workflowService.DbConnection
-                    .Query<int>($@"INSERT INTO `workflow_actions` (
-                                        `uuid`, 
-                                        `workflow_uuid`, 
-                                        `retries`, 
-                                        `action_body`, 
-                                        `action_name`, 
-                                        `action_event`, 
-                                        `is_complete`, 
-                                        `date_expires`,
-                                        `date_to_execute`, 
-                                        `date_created`, 
-                                        `date_modified`, 
-                                        `date_processed`) 
-                                    VALUES (@{nameof(workflowActionEntity.Uuid)},
-                                            @{nameof(workflowActionEntity.WorkflowUuid)},
-                                            @{nameof(workflowActionEntity.Retries)},
-                                            @{nameof(workflowActionEntity.ActionBody)}, 
-                                            @{nameof(workflowActionEntity.ActionName)},
-                                            @{nameof(workflowActionEntity.ActionEvent)}, 
-                                            @{nameof(workflowActionEntity.IsComplete)}, 
-                                            @{nameof(workflowActionEntity.DateExpires)}, 
-                                            @{nameof(workflowActionEntity.DateToExecute)}, 
-                                            utc_timestamp(3), 
-                                            utc_timestamp(3),
-                                            @{nameof(workflowActionEntity.DateProcessed)});", 
-                        workflowActionEntity)
-                    .FirstOrDefault();
-            }
-            
             public static void DeleteWorkflowByUuid(
                 IWorkflowService workflowService, 
                 Guid uuid)
