@@ -41,7 +41,7 @@ namespace StateFlow.Demo
                     Email = "caybokotze@gmail.com",
                     Name = "Caybo Kotze"
                 }
-            }).OnEvent(EmailWorkflow.Events.AccountConfirmed);
+            }).OnWorkflowEvent(EmailWorkflow.Events.AccountConfirmed);
             
             workflowService?.InitialiseWorkflows();
 
