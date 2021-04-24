@@ -66,6 +66,7 @@ namespace Stateflow
                                         `action_body`, 
                                         `action_name`, 
                                         `action_event`, 
+                                        `action_state`
                                         `is_complete`, 
                                         `date_expires`,
                                         `date_to_execute`, 
@@ -78,6 +79,7 @@ namespace Stateflow
                                             @{nameof(workflowActionEntity.ActionBody)}, 
                                             @{nameof(workflowActionEntity.ActionName)},
                                             @{nameof(workflowActionEntity.ActionEvent)}, 
+                                            @{nameof(workflowActionEntity.ActionState)}, 
                                             @{nameof(workflowActionEntity.IsComplete)}, 
                                             @{nameof(workflowActionEntity.DateExpires)}, 
                                             @{nameof(workflowActionEntity.DateToExecute)}, 

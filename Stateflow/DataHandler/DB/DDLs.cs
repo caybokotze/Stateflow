@@ -52,13 +52,13 @@ namespace Stateflow
                                     `action_body`     TEXT     DEFAULT NULL NULL,
                                     `action_name`     VARCHAR(255)          NOT NULL,
                                     `action_event`    VARCHAR(255)          NOT NULL,
+                                    `action_state`    VARCHAR(255)          NOT NULL,
                                     `is_complete`     TINYINT(1),
-                                    `date_expires`    DATETIME DEFAULT NULL NULL,
+                                    `date_expires`    DATETIME              NOT NULL,
                                     `date_to_execute` DATETIME DEFAULT NULL NULL,
                                     `date_created`    DATETIME              NOT NULL,
                                     `date_modified`   DATETIME              NOT NULL,
-                                    `date_processed`  DATETIME DEFAULT NULL NULL,
-                                    CONSTRAINT unique_constraint UNIQUE (`workflow_uuid`, `action_name`, `action_event`)
+                                    `date_processed`  DATETIME DEFAULT NULL NULL
                                 );");
             }
         }
