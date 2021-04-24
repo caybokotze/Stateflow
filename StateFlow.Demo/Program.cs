@@ -34,23 +34,33 @@ namespace StateFlow.Demo
 
             // workflowService?.DisposeWorkflow<EmailWorkflow>();
             
-            workflowService?.InitialiseWorkflows();
+            // workflowService?.InitialiseWorkflows();
             
-            workflowService?.InitialiseAction<EmailWorkflow>(new SendEmailAction
+            // workflowService?.InitialiseAction<EmailWorkflow>(new SendEmailAction
+            // {
+            //     EmailDetails = new EmailDetails
+            //     {
+            //         Email = "caybokotze@gmail.com",
+            //         Name = "Caybo Kotze"
+            //     }
+            // }, DateTime.Now.AddDays(1))
+            //     .OnWorkflowEvent(EmailWorkflow.Events.AccountConfirmed)
+            //     .OnWorkflowState(EmailWorkflow.States.Complete);
+
+
+            var emailAction = new SendEmailAction()
             {
                 EmailDetails = new EmailDetails
                 {
-                    Email = "caybokotze@gmail.com",
-                    Name = "Caybo Kotze"
+                    Email = "Yes",
+                    Name = "No"
                 }
-            }, DateTime.Now.AddDays(1))
-                .OnWorkflowEvent(EmailWorkflow.Events.AccountConfirmed)
-                .OnWorkflowState(EmailWorkflow.States.Complete);
+            };
 
-            workflowService?.LoadAction<SendEmailAction>(new Guid(""));
+            var emailActionObject = (object)emailAction;
 
             workflowService?
-                .RaiseEvent<EmailWorkflow>(EmailWorkflow.Events.SendEmail);
+                .LoadAction<SendEmailAction>(new Guid("012da36a-1940-496b-82df-0a83374edd19"));
 
             Console.WriteLine("finished.");
         }

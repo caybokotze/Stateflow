@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -16,5 +17,6 @@ namespace Stateflow
         void RaiseEvent<T>(Enum eventName) where T : Workflow;
         void RaiseEvent<T>(string eventName) where T : Workflow;
         T LoadAction<T>(Guid guid) where T : WorkflowAction;
+        WorkflowActionEntity[] LoadActionsForWorkflow(Workflow workflow);
     }
 }

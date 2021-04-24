@@ -9,7 +9,7 @@ namespace StateFlow.Demo
 
         public override void SetData(object obj)
         {
-            EmailDetails = (EmailDetails)obj;
+             var something = (SendEmailAction)obj;
         }
 
         public override object GetData()
