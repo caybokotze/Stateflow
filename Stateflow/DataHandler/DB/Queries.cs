@@ -46,6 +46,21 @@ namespace Stateflow
                     })
                     .FirstOrDefault();
             }
+
+            public static WorkflowActionEntity[] FetchActiveActionsByWorkflowGuid(
+                IWorkflowService workflowService,
+                Guid workflowUuid)
+            {
+                return workflowService
+                    .DbConnection
+                    .Query<WorkflowActionEntity>("SELECT * FROM workflow_actions WHERE workflow_uuid = @WorkflowUuid", new
+                    {
+                        WorkflowUuid = workflowUuid
+                    })
+                    .ToArray();
+            }
+            
+            
         }
     }
 }

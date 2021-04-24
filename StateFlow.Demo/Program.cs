@@ -57,10 +57,10 @@ namespace StateFlow.Demo
                 }
             };
 
-            var emailActionObject = (object)emailAction;
-
             workflowService?
                 .LoadAction<SendEmailAction>(new Guid("012da36a-1940-496b-82df-0a83374edd19"));
+
+            workflowService?.LoadActiveActionsForWorkflow<EmailWorkflow>();
 
             Console.WriteLine("finished.");
         }

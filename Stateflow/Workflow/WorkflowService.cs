@@ -184,12 +184,15 @@ namespace Stateflow
             return jsonObject;
         }
 
-        public WorkflowActionEntity[] LoadActionsForWorkflow(Workflow workflow)
+        public WorkflowActionEntity[] LoadActiveActionsForWorkflow<T>()
         {
-            return new WorkflowActionEntity[]
-            {
+            var workflowName = typeof(T).Name;
+            var workflowEntity = StateflowDbContext.Queries.FetchWorkflowByName(this, workflowName);
 
-            };
+            var activeActions = StateflowDbContext
+                .Queries
+                .FetchActiveActionsByWorkflowGuid(this, workflowEntity.Uuid);
+            return activeActions;
         }
     }
 }
