@@ -21,7 +21,7 @@ namespace StateFlow.Demo
             AccountConfirmed
         }
 
-        public override void RegisterStates()
+        public override void DefineWorkflowRules()
         {
             RegisterState(GlobalState.Initialise)
                 .RegisterAction(new SendEmailAction())

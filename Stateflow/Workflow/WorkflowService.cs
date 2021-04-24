@@ -67,7 +67,7 @@ namespace Stateflow
                     throw new InvalidOperationException("Workflow Service tried to initialise an invalid workflow.");
                 }
 
-                workflowInstance.RegisterStates();
+                workflowInstance.DefineWorkflowRules();
             }
         }
 

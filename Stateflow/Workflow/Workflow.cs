@@ -18,7 +18,7 @@ namespace Stateflow
         
         protected WorkflowEntity WorkflowEntity { get; set; }
 
-        public abstract void RegisterStates();
+        public abstract void DefineWorkflowRules();
 
         public int CompareTo(Workflow other)
         {
