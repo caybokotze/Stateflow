@@ -4,12 +4,9 @@ namespace Stateflow
     // ReSharper disable once InconsistentNaming
     public static class DDLBuilder
     {
-        public static string CreateWorkflowTable(
-            DatabaseProvider databaseProvider,
-            IDbExecutionContext executionContext)
+        public static string CreateWorkflowTable()
         {
-            return CreateWorkflowTableCommandBuilder
-                .CreateTableStatement(databaseProvider, executionContext);
+            
         }
     }
 }

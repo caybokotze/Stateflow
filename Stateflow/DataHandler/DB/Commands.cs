@@ -8,13 +8,6 @@ namespace Stateflow
 {
     public static partial class StateflowDbContext
     {
-        private static class Constants
-        {
-            public const string WorkflowTableName = "workflows";
-            public const string WorkflowActionsTableName = "workflow_actions";
-            public const string WorkflowStatesTableName = "workflow_states";
-        }
-
         public static class Commands
         {
             public static int CreateWorkflowState(
@@ -23,9 +16,7 @@ namespace Stateflow
             {
                 return workflowService.DbConnection
                     .Query<int>(CommandBuilder
-                            .CreateOrUpdateWorkflowState(new DbExecutionContext
-                            (Constants.WorkflowStatesTableName,
-                                workflowService.Schema)),
+                            .CreateOrUpdateWorkflowState(),
                         workflowState)
                     .FirstOrDefault();
             }
@@ -35,22 +26,8 @@ namespace Stateflow
                 WorkflowEntity workflowEntity)
             {
                 return workflowService.DbConnection
-                    .Query<int>($@"
-                    INSERT INTO `workflows` (
-                        `current_state`,
-                        `uuid`,
-                        `workflow_name`,
-                        `date_created`,
-                        `date_modified`,
-                        `is_active`)
-                    VALUES (@{nameof(workflowEntity.CurrentState)},
-                            @{nameof(workflowEntity.Uuid)},
-                            @{nameof(workflowEntity.WorkflowName)},
-                            utc_timestamp(3),
-                            utc_timestamp(3),
-                            @{nameof(workflowEntity.IsActive)})
-                    ON DUPLICATE KEY UPDATE `current_state` = @{nameof(workflowEntity.CurrentState)},
-                                            `date_modified` = utc_timestamp(3);", workflowEntity)
+                    .Query<int>(CommandBuilder.CreateOrUpdateWorkflow(workflowEntity),
+                        workflowEntity)
                     .FirstOrDefault();
             }
             
@@ -59,38 +36,7 @@ namespace Stateflow
                 WorkflowActionEntity workflowActionEntity)
             {
                 return workflowService.DbConnection
-                    .Query<int>($@"INSERT INTO `workflow_actions` (
-                                        `uuid`, 
-                                        `workflow_uuid`, 
-                                        `retries`, 
-                                        `action_body`, 
-                                        `action_name`, 
-                                        `action_event`, 
-                                        `action_state`,
-                                        `is_complete`, 
-                                        `date_expires`,
-                                        `date_to_execute`, 
-                                        `date_created`, 
-                                        `date_modified`, 
-                                        `date_processed`) 
-                                    VALUES (@{nameof(workflowActionEntity.Uuid)},
-                                            @{nameof(workflowActionEntity.WorkflowUuid)},
-                                            @{nameof(workflowActionEntity.Retries)},
-                                            @{nameof(workflowActionEntity.ActionBody)}, 
-                                            @{nameof(workflowActionEntity.ActionName)},
-                                            @{nameof(workflowActionEntity.ActionEvent)}, 
-                                            @{nameof(workflowActionEntity.ActionState)}, 
-                                            @{nameof(workflowActionEntity.IsComplete)}, 
-                                            @{nameof(workflowActionEntity.DateExpires)}, 
-                                            @{nameof(workflowActionEntity.DateToExecute)}, 
-                                            @{nameof(workflowActionEntity.DateCreated)}, 
-                                            @{nameof(workflowActionEntity.DateModified)},
-                                            @{nameof(workflowActionEntity.DateProcessed)})
-                                    ON DUPLICATE KEY UPDATE `date_modified` = utc_timestamp(3),
-                                                            `retries` = @{nameof(workflowActionEntity.Retries)},
-                                                            `action_body` = @{nameof(workflowActionEntity.ActionBody)},
-                                                            `date_modified` = utc_timestamp(3),
-                                                            `date_processed` = @{nameof(workflowActionEntity.DateProcessed)};", 
+                    .Query<int>(CommandBuilder.CreateOrUpdateWorkflowAction(workflowActionEntity), 
                         workflowActionEntity)
                     .FirstOrDefault();
             }
@@ -101,24 +47,17 @@ namespace Stateflow
             {
                 workflowService
                     .DbConnection
-                    .Query("DELETE FROM workflows WHERE uuid = @Uuid",
+                    .Query(CommandBuilder.DeleteWorkflowByUuid(),
                     new { Uuid = uuid});
             }
 
-            public static void DeleteActionsByWorkflowUuid(
-                IWorkflowService workflowService, 
-                Guid uuid)
-            {
-                
-            }
-            
             public static void DeleteWorkflowActionsByWorkflowUuid(
                 IWorkflowService workflowService, 
                 Guid uuid)
             {
                 workflowService
                     .DbConnection
-                    .Query("DELETE FROM workflow_actions WHERE workflow_uuid = @Uuid",
+                    .Query(CommandBuilder.DeleteWorkflowActionsByWorkflowUuid(),
                         new { Uuid = uuid });
             }
 
@@ -128,7 +67,7 @@ namespace Stateflow
             {
                 workflowService
                     .DbConnection
-                    .Query("DELETE FROM workflow_states WHERE workflow_uuid = @Uuid",
+                    .Query(CommandBuilder.DeleteWorkflowStatesByWorkflowUuid(),
                         new { Uuid = uuid });
             }
         }

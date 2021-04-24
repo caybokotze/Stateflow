@@ -160,16 +160,6 @@ namespace Stateflow
             return new ActionInitialising(actionEntity, this);
         }
 
-        public void RaiseEvent<T>(Enum eventName) where T : Workflow
-        {
-            RaiseEvent<T>(eventName.ToString());
-        }
-        
-        public void RaiseEvent<T>(string eventName) where T : Workflow
-        {
-            
-        }
-
         public T LoadAction<T>(WorkflowActionEntity workflowActionEntity) where T : WorkflowAction
         {
             var jsonObject = JsonConvert.DeserializeObject<T>(workflowActionEntity.ActionBody);
@@ -185,7 +175,10 @@ namespace Stateflow
         public WorkflowActionEntity[] LoadActiveActionsForWorkflow<T>()
         {
             var workflowName = typeof(T).Name;
-            var workflowEntity = StateflowDbContext.Queries.FetchWorkflowByName(this, workflowName);
+            
+            var workflowEntity = StateflowDbContext
+                .Queries
+                .FetchWorkflowByName(this, workflowName);
 
             var activeActions = StateflowDbContext
                 .Queries
