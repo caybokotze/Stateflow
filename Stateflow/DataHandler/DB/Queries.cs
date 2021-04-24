@@ -14,24 +14,9 @@ namespace Stateflow
             {
                 return workflowService
                     .DbConnection
-                    .Query<WorkflowEntity>("SELECT * from workflows WHERE workflow_name = @Name;", 
+                    .Query<WorkflowEntity>(QueryBuilder.FetchWorkflowByName(), 
                         new { Name = name})
                     .FirstOrDefault();
-            }
-
-            public static WorkflowActionEntity FetchWorkflowEntityByUuid(Guid id)
-            {
-                return new WorkflowActionEntity();
-            }
-
-            public static WorkflowActions FetchWorkflowActionsByWorkflowUuid(Guid id)
-            {
-                return new WorkflowActions();
-            }
-        
-            public static WorkflowActions FetchWorkflowActionsByWorkflowName(string name)
-            {
-                return new WorkflowActions();
             }
 
             public static WorkflowActionEntity FetchWorkflowActionByUuid(
@@ -40,7 +25,7 @@ namespace Stateflow
             {
                 return workflowService
                     .DbConnection
-                    .Query<WorkflowActionEntity>("SELECT * FROM workflow_actions WHERE uuid = @Uuid", new
+                    .Query<WorkflowActionEntity>(QueryBuilder.FetchWorkflowActionByUuid(), new
                     {
                         Uuid = uuid
                     })
@@ -53,10 +38,7 @@ namespace Stateflow
             {
                 return workflowService
                     .DbConnection
-                    .Query<WorkflowActionEntity>($@"SELECT * FROM workflow_actions 
-                        WHERE workflow_uuid = @WorkflowUuid 
-                        AND is_complete = 0 
-                        AND date_processed IS NULL;", new
+                    .Query<WorkflowActionEntity>(QueryBuilder.FetchActiveActionsByWorkflowUuid(), new
                     {
                         WorkflowUuid = workflowUuid
                     })
