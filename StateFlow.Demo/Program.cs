@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
@@ -32,24 +31,22 @@ namespace StateFlow.Demo
 
             var workflowService = serviceProvider
                 .GetService<IWorkflowService>();
-            
-            var emailWorkflow = serviceProvider
-                .GetService<EmailWorkflow>();
-            
+
             // workflowService?.DisposeWorkflow<EmailWorkflow>();
             
-            workflowService?.InitialiseWorkflows();
-
-            emailWorkflow?.InitialiseAction(new SendEmailAction
+            workflowService?.InitialiseAction<EmailWorkflow>(new SendEmailAction
             {
                 EmailDetails = new EmailDetails
                 {
                     Email = "caybokotze@gmail.com",
                     Name = "Caybo Kotze"
                 }
-            });
+            }).OnEvent(EmailWorkflow.Events.AccountConfirmed);
             
-            // emailWorkflow?.RaiseEvent(EmailWorkflow.Events.SendEmail);
+            workflowService?.InitialiseWorkflows();
+
+            workflowService?
+                .RaiseEvent<EmailWorkflow>(EmailWorkflow.Events.SendEmail);
 
             Console.WriteLine("finished.");
         }
@@ -63,7 +60,7 @@ namespace StateFlow.Demo
             return new WorkflowService(dbConnection, 
                 null, 
                 DatabaseProvider.MySql, 
-                "workflow_test");
+                false);
         }
     }
 }

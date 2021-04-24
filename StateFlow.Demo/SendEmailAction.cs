@@ -12,12 +12,12 @@ namespace StateFlow.Demo
             EmailDetails = (EmailDetails)obj;
         }
 
-        public override (object obj, Type type) GetData()
+        public override object GetData()
         {
-            return (new
+            return new
             {
                 EmailDetails
-            }, GetType());
+            };
         }
 
         public override void ExecuteAction()

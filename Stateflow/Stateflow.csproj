@@ -9,6 +9,7 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0-preview.1.21102.12" />
       <PackageReference Include="MsgPack.Cli" Version="1.0.1" />
       <PackageReference Include="MySql.Data" Version="8.0.23" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="SqExpress" Version="0.1.0" />
     </ItemGroup>
 

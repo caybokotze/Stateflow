@@ -27,35 +27,6 @@ namespace Stateflow
         {
             // implement some logic here...
         }
-        
-        // this code will do the following:
-        // - take an action as a parameter.
-        // - Call GetData() on that action.
-        // - create a new workflowActionEntity and persist the actionData to the db along with the workflowId.
-        public void InitialiseAction(WorkflowAction workflowAction, DateTime? dateToExecute = null)
-        {
-            // find workflow in db.
-            var workflowName = ClassHelper.GetNameOfCallingClass();
-            var workflow = StateflowDbContext.Queries.FetchWorkflowByName(this.WorkflowService, workflowName);
-            var action = workflowAction.GetData();
-            var type = action.type;
-            var serializedAction = Serializers.MessagePack.Serialize(action.obj);
-            
-            var actionEntity = new WorkflowActionEntity
-            {
-                Uuid = Guid.NewGuid(),
-                WorkflowUuid = workflow.Uuid,
-                Retries = 0,
-                ActionBody = serializedAction,
-                ActionName = type.ToString(),
-                IsComplete = false,
-                DateToExecute = dateToExecute,
-                DateExpires = null,
-                DateCreated = DateTime.UtcNow,
-                DateModified = DateTime.UtcNow,
-                DateProcessed = DateTime.UtcNow
-            };
-        }
 
         public void RaiseEvent(Enum eventName)
         {
@@ -107,8 +78,7 @@ namespace Stateflow
             
             activatedAction?.ExecuteAction();
         }
-
-
+        
         protected StateConfiguration RegisterState(string stateName)
         {
             CurrentWorkflowName ??= ClassHelper.GetNameOfCallingClass();

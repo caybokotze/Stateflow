@@ -6,14 +6,14 @@ namespace Stateflow.Serializers
 {
     public static class MessagePack
     {
-        public static string Serialize(object obj)
+        public static string Serialize<T>(object obj)
         {
             var context = new SerializationContext
             {
                 SerializationMethod = SerializationMethod.Map
             };
 
-            var serializer = MessagePackSerializer.Get<object>(context);
+            var serializer = MessagePackSerializer.Get<T>(context);
 
             using var byteStream = new MemoryStream();
             serializer.Pack(byteStream, obj);
