@@ -7,7 +7,6 @@ namespace Stateflow
 {
     public interface IWorkflowAction
     {
-        public abstract void SetData(object obj);
         public abstract object GetData();
         void ExecuteAction();
     }
@@ -20,9 +19,7 @@ namespace Stateflow
     public abstract class WorkflowAction : IWorkflowAction
     {
         protected WorkflowActionEntity WorkflowActionEntity { get; set; }
-        public abstract void SetData(object obj);
         public abstract object GetData();
-
         public abstract void ExecuteAction();
     }
 }

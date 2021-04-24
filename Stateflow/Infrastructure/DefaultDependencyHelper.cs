@@ -50,19 +50,20 @@ namespace Stateflow
             
             // ReSharper disable once PossibleNullReferenceException
 
-            var assembly = Assembly.GetExecutingAssembly().GetTypes();
-            var assembly2 = Assembly.GetCallingAssembly().GetTypes();
-            var assembly3 = Assembly.GetEntryAssembly()?.GetTypes();
-
-            foreach (Type type in Assembly
-                .GetEntryAssembly()
-                ?.GetTypes()
-                ?.Where(myType =>
-                myType.IsClass 
-                && !myType.IsAbstract 
-                && myType.IsSubclassOf(typeof(T))))
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            
+            foreach(var assembly in assemblies)
             {
-                types.Add(type);
+                foreach (Type type in 
+                    assembly
+                    .GetTypes()
+                    .Where(myType =>
+                    myType.IsClass 
+                    && !myType.IsAbstract 
+                    && myType.IsSubclassOf(typeof(T))))
+                {
+                    types.Add(type);
+                }
             }
 
             return types;

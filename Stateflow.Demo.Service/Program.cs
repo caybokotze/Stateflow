@@ -19,6 +19,8 @@ namespace Stateflow.ServiceDemo
             
             var action = workflowService?
                 .LoadAction<SendEmailAction>(activeActions[0]);
+            
+            action.ExecuteAction();
         }
         
         
