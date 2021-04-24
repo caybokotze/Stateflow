@@ -5,19 +5,6 @@ namespace Stateflow
 {
     public static class RegisterStateExtensions
     {
-        public static StateConfigured RegisterAction(
-            this StateConfiguration stateConfiguration, 
-            IWorkflowAction workflowAction)
-        {
-            stateConfiguration
-                .CurrentState
-                .RegisteredAction = workflowAction
-                .GetType()
-                .Name;
-
-            return new StateConfigured(stateConfiguration);
-        }
-
         public static StateConfigured RegisterAction<T>(this StateConfiguration stateConfiguration) where T : WorkflowAction
         {
             var type = typeof(T);

@@ -24,17 +24,17 @@ namespace StateFlow.Demo
         public override void DefineWorkflowRules()
         {
             RegisterState(GlobalState.Initialise)
-                .RegisterAction(new SendEmailAction())
+                .RegisterAction<SendEmailAction>()
                 .ExecuteActionOnEvent(Events.SendEmail)
                 .ThenChangeStateTo(States.Confirmed);
 
             RegisterState(States.Confirmed)
-                .RegisterAction(new SendEmailAction())
+                .RegisterAction<SendEmailAction>()
                 .ExecuteActionOnEvent(Events.AccountConfirmed)
                 .ThenChangeStateTo(States.Complete);
 
             RegisterState(GlobalState.Complete)
-                .RegisterAction(new SendEmailAction())
+                .RegisterAction<SendEmailAction>()
                 .ExecuteActionOnEvent(Events.SendEmail);
         }
     }
