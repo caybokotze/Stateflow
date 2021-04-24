@@ -53,7 +53,10 @@ namespace Stateflow
             {
                 return workflowService
                     .DbConnection
-                    .Query<WorkflowActionEntity>("SELECT * FROM workflow_actions WHERE workflow_uuid = @WorkflowUuid", new
+                    .Query<WorkflowActionEntity>($@"SELECT * FROM workflow_actions 
+                        WHERE workflow_uuid = @WorkflowUuid 
+                        AND is_complete = 0 
+                        AND date_processed IS NULL;", new
                     {
                         WorkflowUuid = workflowUuid
                     })

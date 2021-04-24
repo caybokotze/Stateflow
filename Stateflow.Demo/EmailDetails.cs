@@ -1,4 +1,6 @@
-﻿namespace StateFlow.Demo
+﻿using System;
+
+namespace Stateflow.Demo
 {
     public class EmailDetails
     {

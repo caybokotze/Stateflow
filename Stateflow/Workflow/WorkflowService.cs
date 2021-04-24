@@ -170,11 +170,9 @@ namespace Stateflow
             
         }
 
-        public T LoadAction<T>(Guid guid) where T : WorkflowAction
+        public T LoadAction<T>(WorkflowActionEntity workflowActionEntity) where T : WorkflowAction
         {
-            var actionEntity = StateflowDbContext.Queries.FetchWorkflowActionByUuid(this, guid);
-
-            var jsonObject = JsonConvert.DeserializeObject<T>(actionEntity.ActionBody);
+            var jsonObject = JsonConvert.DeserializeObject<T>(workflowActionEntity.ActionBody);
             
             if (jsonObject is null)
             {

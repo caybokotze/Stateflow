@@ -1,5 +1,6 @@
 ﻿using System;
 using Stateflow;
+using Stateflow.Demo;
 
 namespace StateFlow.Demo
 {
@@ -9,7 +10,7 @@ namespace StateFlow.Demo
 
         public override void SetData(object obj)
         {
-             var something = (SendEmailAction)obj;
+            var something = (SendEmailAction) obj;
         }
 
         public override object GetData()

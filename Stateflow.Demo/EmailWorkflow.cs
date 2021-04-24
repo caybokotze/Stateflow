@@ -1,6 +1,6 @@
-﻿using Stateflow;
+﻿using StateFlow.Demo;
 
-namespace StateFlow.Demo
+namespace Stateflow.Demo
 {
     public class EmailWorkflow : Workflow
     {
