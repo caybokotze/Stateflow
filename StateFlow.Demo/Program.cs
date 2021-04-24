@@ -47,6 +47,8 @@ namespace StateFlow.Demo
                 .OnWorkflowEvent(EmailWorkflow.Events.AccountConfirmed)
                 .OnWorkflowState(EmailWorkflow.States.Complete);
 
+            workflowService?.LoadAction<SendEmailAction>(new Guid(""));
+
             workflowService?
                 .RaiseEvent<EmailWorkflow>(EmailWorkflow.Events.SendEmail);
 

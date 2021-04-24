@@ -154,7 +154,7 @@ namespace Stateflow
                 DateExpires = expiryDate,
                 DateCreated = DateTime.UtcNow,
                 DateModified = DateTime.UtcNow,
-                DateProcessed = DateTime.UtcNow
+                DateProcessed = null
             };
 
             return new ActionInitialising(actionEntity, this);
@@ -164,11 +164,23 @@ namespace Stateflow
         {
             RaiseEvent<T>(eventName.ToString());
         }
-
-
+        
         public void RaiseEvent<T>(string eventName) where T : Workflow
         {
             
         }
+
+        public T LoadAction<T>(Guid guid) where T : WorkflowAction
+        {
+            var actionEntity = StateflowDbContext.Queries.FetchWorkflowActionByUuid(this, guid);
+            
+            var jsonObject = JsonConvert.DeserializeObject(actionEntity.ActionBody);
+
+            var action = (T) jsonObject;
+
+            return action;
+        }
+        
+        
     }
 }

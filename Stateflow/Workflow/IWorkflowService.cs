@@ -15,5 +15,6 @@ namespace Stateflow
         ActionInitialising InitialiseAction<T>(WorkflowAction workflowAction, DateTime? expiryDate, DateTime? executeOnDate = null) where T : Workflow;
         void RaiseEvent<T>(Enum eventName) where T : Workflow;
         void RaiseEvent<T>(string eventName) where T : Workflow;
+        T LoadAction<T>(Guid guid) where T : WorkflowAction;
     }
 }

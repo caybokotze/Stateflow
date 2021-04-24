@@ -33,6 +33,19 @@ namespace Stateflow
             {
                 return new WorkflowActions();
             }
+
+            public static WorkflowActionEntity FetchWorkflowActionByUuid(
+                IWorkflowService workflowService,
+                Guid uuid)
+            {
+                return workflowService
+                    .DbConnection
+                    .Query<WorkflowActionEntity>("SELECT * FROM workflow_actions WHERE uuid = @Uuid", new
+                    {
+                        Uuid = uuid
+                    })
+                    .FirstOrDefault();
+            }
         }
     }
 }
