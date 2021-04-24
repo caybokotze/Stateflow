@@ -119,7 +119,7 @@ namespace Stateflow
 
         public ActionInitialising InitialiseAction<T>(
             WorkflowAction workflowAction, 
-            DateTime expiryDate, 
+            DateTime? expiryDate, 
             DateTime? executeOnDate = null) where T : Workflow
         {
             var workflowType = typeof(T);
@@ -127,6 +127,11 @@ namespace Stateflow
 
             var actionType = workflowAction.GetType();
             var actionName = actionType.Name;
+
+            if (expiryDate < DateTime.UtcNow || expiryDate is null)
+            {
+                expiryDate = DateTime.UtcNow.AddDays(1);
+            }
 
             var workflow = StateflowDbContext
                 .Queries
@@ -146,7 +151,7 @@ namespace Stateflow
                 ActionEvent = string.Empty,
                 IsComplete = false,
                 DateToExecute = executeOnDate,
-                DateExpires = null,
+                DateExpires = expiryDate,
                 DateCreated = DateTime.UtcNow,
                 DateModified = DateTime.UtcNow,
                 DateProcessed = DateTime.UtcNow
