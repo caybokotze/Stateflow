@@ -1,11 +1,9 @@
 ﻿using System;
-using Stateflow.Entities;
-using Stateflow.Serializers;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
 {
-    public static class StateConfigurationHelpers
+    public static class RegisterStateExtensions
     {
         public static StateConfigured RegisterAction(
             this StateConfiguration stateConfiguration, 
@@ -37,6 +35,32 @@ namespace Stateflow
         public static void ThenChangeStateTo(this EventConfigured eventConfigured, Enum stateName)
         {
             ThenChangeStateTo(eventConfigured, stateName.ToString());
+        }
+        
+        public static EventConfigured ExecuteActionOnEvent(
+            this StateConfigured stateConfigured, 
+            string eventName)
+        {
+            stateConfigured
+                .StateConfiguration
+                .CurrentState
+                .RegisteredEvent = eventName;
+
+            var workflowService = stateConfigured.StateConfiguration.WorkflowService;
+            var currentState = stateConfigured.StateConfiguration.CurrentState;
+            
+            StateflowDbContext
+                .Commands
+                .CreateWorkflowState(workflowService, currentState);
+            
+            return new EventConfigured(stateConfigured.StateConfiguration);
+        }
+        
+        public static EventConfigured ExecuteActionOnEvent(
+            this StateConfigured stateConfigured,
+            Enum eventName)
+        {
+            return ExecuteActionOnEvent(stateConfigured, eventName.ToString());
         }
     }
 }

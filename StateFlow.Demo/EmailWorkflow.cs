@@ -26,19 +26,16 @@ namespace StateFlow.Demo
             RegisterState(GlobalState.Initialise)
                 .RegisterAction(new SendEmailAction())
                 .ExecuteActionOnEvent(Events.SendEmail)
-                .ThenChangeStateTo(States.Confirmed)
-                .SaveState();
+                .ThenChangeStateTo(States.Confirmed);
 
             RegisterState(States.Confirmed)
                 .RegisterAction(new SendEmailAction())
                 .ExecuteActionOnEvent(Events.AccountConfirmed)
-                .ThenChangeStateTo(States.Complete)
-                .SaveState();
-            
+                .ThenChangeStateTo(States.Complete);
+
             RegisterState(GlobalState.Complete)
                 .RegisterAction(new SendEmailAction())
-                .ExecuteActionOnEvent(Events.SendEmail)
-                .SaveState();
+                .ExecuteActionOnEvent(Events.SendEmail);
         }
     }
 }
