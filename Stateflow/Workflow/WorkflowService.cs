@@ -117,7 +117,10 @@ namespace Stateflow
             DbConnection.Query("COMMIT;");
         }
 
-        public ActionInitialising InitialiseAction<T>(WorkflowAction workflowAction, DateTime? executeOnDate = null) where T : Workflow
+        public ActionInitialising InitialiseAction<T>(
+            WorkflowAction workflowAction, 
+            DateTime expiryDate, 
+            DateTime? executeOnDate = null) where T : Workflow
         {
             var workflowType = typeof(T);
             var workflowName = workflowType.Name;

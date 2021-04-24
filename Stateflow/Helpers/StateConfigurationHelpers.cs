@@ -40,29 +40,6 @@ namespace Stateflow
                 .StateConfiguration
                 .CurrentState;
 
-            var workflowAction = new WorkflowActionEntity
-            {
-                Uuid = Guid.NewGuid(),
-                WorkflowUuid = currentState.WorkflowUuid,
-                Retries = 0,
-                ActionName = currentState.RegisteredAction,
-                ActionEvent = currentState.RegisteredEvent,
-                DateProcessed = null
-            };
-
-            try
-            {
-                StateflowDbContext
-                    .Commands
-                    .CreateWorkflowAction(stateComplete.StateConfiguration.WorkflowService,
-                        workflowAction);
-            }
-            catch (Exception e)
-            {
-                // ignore
-                Console.WriteLine(e.Message);
-            }
-
             StateflowDbContext
                 .Commands
                 .CreateWorkflowState(stateComplete
