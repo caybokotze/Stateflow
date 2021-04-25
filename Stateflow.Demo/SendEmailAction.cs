@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Stateflow;
 using Stateflow.Demo;
 
@@ -6,6 +7,7 @@ namespace StateFlow.Demo
 {
     public class SendEmailAction : WorkflowAction
     {
+
         public EmailDetails EmailDetails { get; set; }
         
 
@@ -19,7 +21,7 @@ namespace StateFlow.Demo
 
         public override void ExecuteAction()
         {
-            Console.WriteLine("Email is sending...");
+            Console.WriteLine($"Email from {EmailDetails.Email} is sending to {EmailDetails.Name}");
         }
     }
 }
