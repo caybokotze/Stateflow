@@ -79,6 +79,32 @@ The main role of an action is to perform the intented action and nothing more. A
 
 Adding onto the point above. Actions are self-contained. They only contain the values you initialise them with and that instance of that action, will forever remian that way until executed. Every time something needs to be done, you would use an action to do that thing.
 
+Actions also have a GetData() method. This is so that the developer is aware that they need to explicitly define what should be persisted to the database and what doesn't have to be.
+
+```csharp
+
+public class SendEmailAction : WorkflowAction
+{
+
+    public EmailDetails EmailDetails { get; set; }
+
+
+    public override object GetData()
+    {
+        return new
+        {
+            EmailDetails
+        };
+    }
+
+    public override void ExecuteAction()
+    {
+        Console.WriteLine($"Email from {EmailDetails.Email} is sending to {EmailDetails.Name}");
+    }
+}
+
+```
+
 ## Workflows should not change once defined
 
 One thing to keep in mind is that actions and thier states are dependent on keeping workflow definitions more or less the same. This also includes the workflow name itself. If you change the name of a workflow, do keep in mind it would be as if all the actions that depend on that previous workflow no longer exist.
@@ -86,3 +112,20 @@ One thing to keep in mind is that actions and thier states are dependent on keep
 ## Initialisation does not equal execution
 
 When an action gets initialised, it is not yet executed. It is the job of some service or worker to pick up that a new action exists within the database and needs to be executed under the conditions that you have specified in the workflow. They will not just execute immediately. There will always be a slight delay, sometimes a few seconds or minutes or hours -- depending on whether or not you have added a delay.
+
+## Actions are initialised like this
+
+After an action is initialised, everything you used to initialise it with (and what you define the action to save) will be persisted to the database. Then the service / worker picks up the action it will execute the ExecuteAction method.
+
+```csharp
+ workflowService?.InitialiseAction<EmailWorkflow>(new SendEmailAction
+{
+    EmailDetails = new EmailDetails
+    {
+        Email = "caybokotze@gmail.com",
+        Name = "Caybo Kotze"
+    }
+}, DateTime.Now.AddDays(1))
+    .OnWorkflowEvent(EmailWorkflow.Events.AccountConfirmed)
+    .OnWorkflowState(EmailWorkflow.States.Complete);
+```
