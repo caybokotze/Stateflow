@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Extensions.DependencyInjection;
+using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
@@ -8,7 +8,12 @@ namespace Stateflow
     public interface IWorkflowService
     {
         IDbConnection DbConnection { get; }
-        DatabaseProvider DatabaseProvider { get; }
+        DatabaseProvider DatabaseProvider { get; set; }
         IServiceProvider ServiceProvider { get; }
+        void InitialiseWorkflows();
+        void DisposeWorkflow<T>() where T : Workflow;
+        ActionInitialising InitialiseAction<T>(WorkflowAction workflowAction, DateTime? expiryDate, DateTime? executeOnDate = null) where T : Workflow;
+        T LoadAction<T>(WorkflowActionEntity workflowActionEntity) where T : WorkflowAction;
+        WorkflowActionEntity[] LoadActiveActionsForWorkflow<T>();
     }
 }

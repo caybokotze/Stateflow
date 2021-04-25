@@ -3,11 +3,11 @@ namespace Stateflow
 {
     public class EventConfigured
     {
-        public IWorkflowConfiguration Configuration { get; }
+        public StateConfiguration StateConfiguration { get; }
 
-        public EventConfigured(IWorkflowConfiguration configuration)
+        public EventConfigured(StateConfiguration stateConfiguration)
         {
-            Configuration = configuration;
+            StateConfiguration = stateConfiguration;
         }
     }
 }

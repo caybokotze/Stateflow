@@ -1,16 +1,15 @@
 ﻿using System;
-using Dapper;
-using SqExpress.SqlExport;
-using static SqExpress.SqQueryBuilder;
+using Stateflow.Entities;
 
 // ReSharper disable CheckNamespace
 namespace Stateflow
 {
-    public abstract class StateManager
+    public class StateManager
     {
         private IWorkflowService WorkflowService { get; }
-        
-        protected static class GlobalStates
+        public string CurrentWorkflowName { get; set; }
+
+        public static class GlobalState
         {
             public const string Initialise = "Initialise";
             public const string Complete = "Complete";
@@ -21,49 +20,36 @@ namespace Stateflow
             WorkflowService = workflowService;
         }
 
-        private Workflow GetWorkflow(ulong id)
-        {
-            return WorkflowService.DbConnection
-                .QueryFirst<Workflow>("SELECT * FROM stores WHERE id = @id",
-                    new { id = id });
-        }
-
-        private int SaveWorkflow(Workflow workflow)
-        {
-            var query = Select("Hi there.").Done();
-            var result = MySqlExporter.Default.ToSql(query);
-            return WorkflowService.DbConnection.QueryFirst<int>(result);
-        }
-
         protected StateConfiguration RegisterState(string stateName)
         {
-            IWorkflowConfiguration configuration = new WorkflowConfiguration(WorkflowService);
-            var stateConfiguration = stateName switch
+            CurrentWorkflowName ??= ClassHelper.GetNameOfCallingClass();
+            
+            var workflow = StateflowDbContext
+                .Queries
+                .FetchWorkflowByName(WorkflowService, CurrentWorkflowName);
+
+            if (workflow is null)
             {
-                GlobalStates.Initialise => new StateConfiguration(configuration)
+                throw new NullReferenceException("The workflow configured for this state can not be found");
+            }
+            
+            return new StateConfiguration(WorkflowService)
+            {
+                CurrentState = new WorkflowState
                 {
-                    Initialised = false,
-                    StateName = stateName
-                },
-                GlobalStates.Complete => new StateConfiguration(configuration)
-                {
-                  Initialised  = true,
-                  StateName = stateName,
-                  Complete = true
-                },
-                _ => new StateConfiguration(configuration)
-                {
-                    Initialised = true,
-                    StateName = stateName
+                    RegisteredState = stateName,
+                    WorkflowUuid = workflow.Uuid
                 }
             };
-            return stateConfiguration;
         }
         
         protected StateConfiguration RegisterState(Enum stateName)
         {
+            CurrentWorkflowName ??= ClassHelper.GetNameOfCallingClass();
+            
             Console.WriteLine(stateName);
             return RegisterState(stateName.ToString());
         }
     }
+    
 }

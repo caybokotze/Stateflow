@@ -2,7 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stateflow", "Stateflow\Stateflow.csproj", "{EC4579CE-677B-4329-BBF6-1AAAAA928DF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateFlow.Demo", "StateFlow.Demo\StateFlow.Demo.csproj", "{383C1F00-0B23-429F-A406-982848EA2AD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateFlow.Demo.InitialiseActions", "StateFlow.Demo.InitialiseActions\StateFlow.Demo.InitialiseActions.csproj", "{383C1F00-0B23-429F-A406-982848EA2AD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stateflow.Tests", "Stateflow.Tests\Stateflow.Tests.csproj", "{02AFFCE8-9C49-474C-9450-735BB310C42E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stateflow.Demo.Service", "Stateflow.Demo.Service\Stateflow.Demo.Service.csproj", "{1D5D994B-DCFF-431F-B232-96C7C7E885B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stateflow.Demo", "Stateflow.Demo\Stateflow.Demo.csproj", "{38F09294-A3EF-4ED4-8CC1-E8624C54C25C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +24,17 @@ Global
 		{383C1F00-0B23-429F-A406-982848EA2AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{383C1F00-0B23-429F-A406-982848EA2AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{383C1F00-0B23-429F-A406-982848EA2AD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02AFFCE8-9C49-474C-9450-735BB310C42E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02AFFCE8-9C49-474C-9450-735BB310C42E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02AFFCE8-9C49-474C-9450-735BB310C42E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02AFFCE8-9C49-474C-9450-735BB310C42E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D5D994B-DCFF-431F-B232-96C7C7E885B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D5D994B-DCFF-431F-B232-96C7C7E885B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D5D994B-DCFF-431F-B232-96C7C7E885B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D5D994B-DCFF-431F-B232-96C7C7E885B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38F09294-A3EF-4ED4-8CC1-E8624C54C25C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38F09294-A3EF-4ED4-8CC1-E8624C54C25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38F09294-A3EF-4ED4-8CC1-E8624C54C25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38F09294-A3EF-4ED4-8CC1-E8624C54C25C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
