@@ -24,7 +24,7 @@ GRANT ALL PRIVILEGES ON *  TO 'sqltracking'@'localhost';
 
 # State management solutions
 
-Although there are not currently a lot of state management solutions around, the problem they try and solve is simply this; *to maintain state for a given action over time.*
+Although there are not currently a lot of state management solutions around, the problem being solved with this library is simply this; *to maintain state for a given action over time.*
 
 The point of stateflow is to create a really straight forward solution with the following phiolophies in mind, actions perform actions, workflows define rules and actions should be self contained things.
 
