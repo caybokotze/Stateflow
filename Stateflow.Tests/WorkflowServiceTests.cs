@@ -16,7 +16,9 @@ namespace Stateflow.Tests
         {
             // Arrange
             var workflowService = WorkflowService;
+            
             // Act
+            
             // Assert
             Expect(workflowService).To.Not.Be.Null();
         }
@@ -26,7 +28,9 @@ namespace Stateflow.Tests
         {
             // Arrange
             var workflowService = WorkflowService;
+            
             // Act
+            
             // Assert
             Expect(workflowService.DbConnection).To.Not.Be.Null();
             Expect(workflowService.DbConnection.ConnectionString).To.Not.Equal(string.Empty);
@@ -48,11 +52,164 @@ namespace Stateflow.Tests
                     DatabaseProvider = databaseProvider
                 })
                 .BuildServiceProvider();
+            
             // Act
             var workflowService = serviceProvider
                 .GetService<IWorkflowService>();
+            
             // Assert
-            Expect(workflowService?.DatabaseProvider).To.Equal(DatabaseProvider.MySql);
+            Expect(workflowService?.DatabaseProvider)
+                .To
+                .Equal(DatabaseProvider.MySql);
+        }
+
+        [TestFixture]
+        public class Initialization
+        {
+            [TestFixture]
+            public class InitialiseWorkflows
+            {
+                [Test]
+                public void DoesCreateTablesIfNotExist()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void DoesPersistNewWorkflows()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void ShouldFindTypeWorkflowInApplicationDomain()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void ShouldInjectAWorkflowWithAWorkflowServiceInstance()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void ShouldFailToInjectAWorkflowWithMultipleConstructorParameters()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void DoesCallTheDefineWorkflowRulesMethodInWorkflowInstance()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+            }
+
+            [TestFixture]
+            public class InitialiseWorkflow
+            {
+                [Test]
+                public void DoesPersistWorkflowEntity()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void DoesThrowNullReferenceIfWorkflowIsNull()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+            }
+
+            [TestFixture]
+            public class DisposeWorkflow
+            {
+                [Test]
+                public void DoesRemoveAllWorkflowsAndWorkflowStatesForSpecifiedWorkflow()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+            }
+
+            [TestFixture]
+            public class InitialiseAction
+            {
+                [Test]
+                public void ShouldReturnNewActionInitialisingInstance()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void ResultDoesContainNonNullActionEntity()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void DoesReturnNonNullWorkflowServiceInstance()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+
+                [Test]
+                public void OnWorkflowEventShouldBeCallableOnInitialisedAction()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void OnWorkflowStateShouldBeCallableOn_OnWorkflowEvent()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void OnWorkflowStateShouldPersistAction()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+
+                [Test]
+                public void OnWorkflowEventShouldAssignEventNameToWorkflowAction()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+            }
         }
     }
 }
