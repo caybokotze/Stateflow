@@ -5,6 +5,11 @@ Stateflow is a state management solution to assist with complex workflows and al
 - Currently only supports MySql
 - No RabbitMq integration as yet.
 
+# Diagram!
+
+[Stateflow High Level](https://user-images.githubusercontent.com/25146896/116010400-fc79c300-a61e-11eb-8382-8beb6cccce1f.png)
+
+
 # Setup
 - Install MySql
 
