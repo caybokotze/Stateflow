@@ -210,6 +210,30 @@ namespace Stateflow.Tests
                     // Assert
                 }
             }
+
+            [TestFixture]
+            public class LoadAction
+            {
+                [Test]
+                public void LoadActionShouldDeserializeAWorkflowActionEntityAndReturnAnInstanceOfThatAction()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+            }
+
+            [TestFixture]
+            public class LoadActiveActionsForWorkflow
+            {
+                [Test]
+                public void ReturnsListOfActionsForWorkflow()
+                {
+                    // Arrange
+                    // Act
+                    // Assert
+                }
+            }
         }
     }
 }
